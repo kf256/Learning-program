@@ -40,6 +40,27 @@
         <script src="./files/touchfunctions.js">
         </script>
         <script>
+            // simple and useful functions
+            JSON.copy = function(e) {
+                return JSON.parse(JSON.stringify(e));
+            };
+            let rand = function(number) {
+                return Math.floor(Math.random()*number);
+            };
+            Number.prototype.clamp = function(min = 0, max = 1) {
+                return Math.min(Math.max(this, min), max);
+            };
+            Array.prototype.shuffle = function() {
+                for(let i = this.length-1; i > 0; i--) {
+                    let j = rand(i+1);
+                    [this[i], this[j]] = [this[j], this[i]];
+                }
+            };
+            Array.prototype.random = function() {
+                return this[rand(this.length)];
+            };
+            
+            // most important variables
             let canvas = document.getElementById("canvas");
             let ctx = canvas.getContext("2d");
             let state = "not started";
@@ -55,8 +76,6 @@
             let cursorType = 0;
             let cursorSize = 0.01;
             let cursorSpeed = 0.001;
-            
-            JSON.copy = function(e) {return JSON.parse(JSON.stringify(e))};
             
             // global variables of the draw functions
             let t = 0;
@@ -84,41 +103,56 @@
             };
             let commands = function(text, x = 0, y = 0, size = 0.1, font = chilanka) {
                 let cmd = font.getPath(text, 0, 0, size).commands;
-                let centerx = 0;
-                let centery = 0;
-                let number = 0;
+                let minX = 0;
+                let maxX = 0;
+                let minY = 0;
+                let maxY = 0;
                 for (let i = 0; i < cmd.length; i++) {
                     switch (cmd[i].type) {
                         case "M": {
-                            centerx += cmd[i].x;
-                            centery += cmd[i].y;
-                            number++;
+                            minX = Math.min(minX, cmd[i].x);
+                            maxX = Math.max(maxX, cmd[i].x);
+                            minY = Math.min(minY, cmd[i].y);
+                            maxY = Math.max(maxY, cmd[i].y);
                             break;
                         }
                         case "L": {
-                            centerx += cmd[i].x;
-                            centery += cmd[i].y;
-                            number++;
+                            minX = Math.min(minX, cmd[i].x);
+                            maxX = Math.max(maxX, cmd[i].x);
+                            minY = Math.min(minY, cmd[i].y);
+                            maxY = Math.max(maxY, cmd[i].y);
                             break;
                         }
                         case "C": {
-                            centerx += cmd[i].x1+cmd[i].x2+cmd[i].x;
-                            centery += cmd[i].y1+cmd[i].y2+cmd[i].y;
-                            number += 3;
+                            minX = Math.min(minX, cmd[i].x1);
+                            maxX = Math.max(maxX, cmd[i].x1);
+                            minY = Math.min(minY, cmd[i].y1);
+                            maxY = Math.max(maxY, cmd[i].y1);
+                            minX = Math.min(minX, cmd[i].x2);
+                            maxX = Math.max(maxX, cmd[i].x2);
+                            minY = Math.min(minY, cmd[i].y2);
+                            maxY = Math.max(maxY, cmd[i].y2);
+                            minX = Math.min(minX, cmd[i].x);
+                            maxX = Math.max(maxX, cmd[i].x);
+                            minY = Math.min(minY, cmd[i].y);
+                            maxY = Math.max(maxY, cmd[i].y);
                             break;
                         }
                         case "Q": {
-                            centerx += cmd[i].x1+cmd[i].x;
-                            centery += cmd[i].y1+cmd[i].y;
-                            number += 2;
+                            minX = Math.min(minX, cmd[i].x1);
+                            maxX = Math.max(maxX, cmd[i].x1);
+                            minY = Math.min(minY, cmd[i].y1);
+                            maxY = Math.max(maxY, cmd[i].y1);
+                            minX = Math.min(minX, cmd[i].x);
+                            maxX = Math.max(maxX, cmd[i].x);
+                            minY = Math.min(minY, cmd[i].y);
+                            maxY = Math.max(maxY, cmd[i].y);
                             break;
                         }
                     }
                 }
-                centerx/= number;
-                centery/= number;
-                centerx-= x;
-                centery-= y;
+                let centerX = (minX+maxX)/2;
+                let centerY = (minY+maxY)/2;
                 for (let i = 0; i < cmd.length; i++) {
                     switch (cmd[i].type) {
                         case "M": {
@@ -216,9 +250,6 @@
                 }
                 return text;
             };
-            Number.prototype.clamp = function(min = 0, max = 1) {return Math.min(Math.max(this, min), max);};
-            Array.prototype.shuffle = function() {for(let i=this.length-1,j;i>0;i--){j=rand(i+1);[this[i],this[j]]=[this[j],this[i]];}};
-            Array.prototype.random = function() {return this[Math.floor(Math.random()*this.length)];};
             let isPositiveInteger = function(number) {
                 if (number%1 != 0) return false;
                 if (number <= 0) return false;
@@ -235,9 +266,6 @@
                     case 2: return integer+"nd";
                     case 3: return integer+"rd";
                 }
-            };
-            let rand = function(number) {
-                return Math.floor(Math.random()*number);
             };
             
             // start everything
