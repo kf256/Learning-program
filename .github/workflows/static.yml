@@ -29,18 +29,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Init dir
+        run: mkdir -p ./_site/devel
       - name: Checkout main
         uses: actions/checkout@v3
         with:
           ref: 'main'
-      - name: Copy main
-        run: mkdir -p ./_site; cp -a *.html files ./_site
+          path: '_site'
       - name: Checkout devel
         uses: actions/checkout@v3
         with:
           ref: 'devel'
-      - name: Copy devel
-        run: mkdir -p ./_site/devel; cp -a *.html files ./_site/devel
+          path: '_site/devel'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
