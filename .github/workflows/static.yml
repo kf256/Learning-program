@@ -30,17 +30,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Init dir
-        run: mkdir -p ./_site/devel
+        run: mkdir -p ./devel
       - name: Checkout main
         uses: actions/checkout@v3
         with:
           ref: 'main'
-          path: '_site'
+          path: '.'
       - name: Checkout devel
         uses: actions/checkout@v3
         with:
           ref: 'devel'
-          path: '_site/devel'
+          path: './devel'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
