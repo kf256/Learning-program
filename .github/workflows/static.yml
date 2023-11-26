@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: Checkout main
         uses: actions/checkout@v3
+        with:
+          ref: 'main'
       - name: Copy main
         run: mkdir -p ./_site; cp -a *.html files ./_site
       - name: Checkout devel
