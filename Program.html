@@ -68,7 +68,7 @@
             
             // settings
             let maxfps = 30;
-            let tasksSpeed = 3;
+            let tasksSpeed = 1;
             let perspectiveFactor = 2;
             let taskNumber = 15;
             let taskDist = 20;
@@ -151,8 +151,8 @@
                         }
                     }
                 }
-                let centerX = (minX+maxX)/2;
-                let centerY = (minY+maxY)/2;
+                let centerx = (minX+maxX)/2;
+                let centery = (minY+maxY)/2;
                 for (let i = 0; i < cmd.length; i++) {
                     switch (cmd[i].type) {
                         case "M": {
