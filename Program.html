@@ -151,8 +151,8 @@
                         }
                     }
                 }
-                let centerx = (minX+maxX)/2;
-                let centery = (minY+maxY)/2;
+                let centerx = (minX+maxX)/2-x;
+                let centery = (minY+maxY)/2-y;
                 for (let i = 0; i < cmd.length; i++) {
                     switch (cmd[i].type) {
                         case "M": {
