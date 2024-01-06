@@ -110,7 +110,7 @@ class SimpleImage {
     }
     changeType(type) {
         if (this.type == "32 Bit Uint8Array" && type == "1 Bit Uint32Array") {
-            let dataNew = new UInt32Array(Math.ceil(this.width*this.height/32));
+            let dataNew = new Uint32Array(Math.ceil(this.width*this.height/32));
             for (let i = 0; i < this.data.length; i+= 4) {
                 let x = (i/4)%this.width;
                 let y = (i/4-x)/this.width;
