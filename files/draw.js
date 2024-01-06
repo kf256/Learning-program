@@ -13,8 +13,11 @@ let draw = function() {
         nextframerateintupdate = Date.now()+500; // refresh in half a second at the earliest
     }
     
-    // make all the animations faster or slower
+    // make everything faster or slower
     t *= tasksSpeed;
+    
+    // save storage
+    localStorage["Learning program"] = JSON.stringify(storage);
     
     // clear the canvas
     cnew();

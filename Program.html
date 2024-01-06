@@ -27,6 +27,8 @@
             let ctx = canvas.getContext("2d");
             let state = "not started";
             let tasks = [];
+            if (localStorage["Learning program"] == undefined) localStorage["Learning program"] = "";
+            let storage = JSON.parse(localStorage["Learning program"]);
             
             // settings
             let maxfps = 30;
