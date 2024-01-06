@@ -263,10 +263,14 @@
                 await loadScript(`./files/touchfunctions.js?${Math.random().toString(36)}`);
                 await loadScript(`https://kf256.github.io/various/differentFunctions.js?${Math.random().toString(36)}`);
                 
-                poslast = JSON.copy(pos);
-                speedlast = JSON.copy(speed);
+                // integrate earth.png image
+                await loadImageURL("./files/Earth.png");
                 
                 await loadFont(); // load chilanka
+                
+                // define poslast and speedlast
+                poslast = JSON.copy(pos);
+                speedlast = JSON.copy(speed);
                 
                 draw(); // draw start screen
             }
