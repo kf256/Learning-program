@@ -264,7 +264,7 @@
                 await loadScript(`https://kf256.github.io/various/differentFunctions.js?${Math.random().toString(36)}`);
                 
                 // integrate earth.png image
-                let earthImage loadImageURL("./files/Earth.png");
+                let earthImage = loadImageURL("./files/Earth.png");
                 earthImage.changeType("1 Bit Uint32Array");
                 images.earth = earthImage;
                 
