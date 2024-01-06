@@ -54,9 +54,9 @@
             let time = Date.now();
             
             let enterFullscreen = function() {
-                if      (document.body.requestFullscreen)       document.body.requestFullscreen();
-                else if (document.body.webkitRequestFullscreen) document.body.webkitRequestFullscreen();
-                else if (document.body.msRequestFullscreen)     document.body.msRequestFullscreen();
+                if      (canvas.requestFullscreen)       canvas.requestFullscreen();
+                else if (canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
+                else if (canvas.msRequestFullscreen)     canvas.msRequestFullscreen();
             };
             let exitFullscreen = function() {
                 if      (document.exitFullscreen)       document.exitFullscreen();
