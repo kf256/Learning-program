@@ -59,47 +59,7 @@ let draw = function() {
         for (let z = tasks.length; z > 0; z--) {
             let task = tasks[z-1];
             xyzloc.z = z*taskDist;
-            if (xyzloc.z-4 > poslast.z && xyzloc.z-4 < pos.z) {
-                let x = Math.round(pos.x+0.5);
-                let y = Math.round(pos.y+0.5);
-                let i = x+2*y;
-                tasks[z-1].answer = tasks[z-1].possibilities[i];
-                if (tasks[z-1].possibilities[i] == tasks[z-1].solution) {
-                    let answers = [
-                        `Well done! ${(tasks[z-1].solution)}  is correct!`,
-                        `Well done! ${(tasks[z-1].solution)} is the right answer!`,
-                        `Well done! ${(tasks[z-1].solution)} is right!`,
-                        `Perfect! ${(tasks[z-1].solution)}  is correct!`,
-                        `Perfect! ${(tasks[z-1].solution)} is the right answer!`,
-                        `Correct! ${(tasks[z-1].solution)} is the right answer!`,
-                        `Correct! ${(tasks[z-1].solution)} is right!`,
-                        `Great! ${(tasks[z-1].solution)} is correct!`,
-                        `Great! ${(tasks[z-1].solution)} is right!`
-                    ];
-                    console.log(answers.random());
-                    storage.XP++;
-                } else {
-                    let answers = [
-                        `${tasks[z-1].possibilities[i]} is incorrect. The correct solution would have been ${tasks[z-1].solution}.`,
-                        `${tasks[z-1].possibilities[i]} is incorrect. ${tasks[z-1].solution} would have been the correct solution.`,
-                        `${tasks[z-1].possibilities[i]} is wrong. The correct solution would have been ${tasks[z-1].solution}.`,
-                        `${tasks[z-1].possibilities[i]} is not correct. The correct solution would have been ${tasks[z-1].solution}.`,
-                        `${tasks[z-1].possibilities[i]} is not correct. ${tasks[z-1].solution} would have been the correct solution.`,
-                        `${tasks[z-1].possibilities[i]} is not correct. The answer would have been ${tasks[z-1].solution}.`,
-                        `${tasks[z-1].possibilities[i]} is wrong. ${tasks[z-1].solution} would have been the answer.`,
-                        `${tasks[z-1].possibilities[i]} is wrong. The correct answer would have been ${tasks[z-1].solution}.`,
-                        `${tasks[z-1].possibilities[i]} is sadly incorrect. The correct solution would be ${tasks[z-1].solution}.`,
-                        `${tasks[z-1].possibilities[i]} is unfortunately incorrect. ${tasks[z-1].solution} would have been the correct solution.`,
-                        `${tasks[z-1].possibilities[i]} is unfortunately incorrect. The correct solution was ${tasks[z-1].solution}.`,
-                        `The answer ${tasks[z-1].possibilities[i]} is incorrect. The correct solution would have been ${tasks[z-1].solution}.`,
-                        `The answer ${tasks[z-1].possibilities[i]} is false. The correct solution would have been ${tasks[z-1].solution}.`,
-                        `The answer ${tasks[z-1].possibilities[i]} is incorrect. The correct solution was ${tasks[z-1].solution}.`,
-                        `Your answer ${tasks[z-1].possibilities[i]} is wrong. ${tasks[z-1].solution} would have been the correct solution.`
-                    ];
-                    console.log(answers.random());
-                    tasks.push(task);
-                }
-            }
+            checkIfTaskCompleted(z);
             let viewDist = xyzrtt({x:0,y:0,z:0}).z;
             if (z == tasks.length && viewDist < -taskDist) {
                 state = "start";
@@ -204,6 +164,50 @@ let drawUpdatePosition = function() {
     // reset speed
     speed = {x: 0, y: 0, z: 0};
 };
+function checkIfTaskCompleted(z) {
+    let task = tasks[z-1];
+    if (xyzloc.z-4 > poslast.z && xyzloc.z-4 < pos.z) {
+        let x = Math.round(pos.x+0.5);
+        let y = Math.round(pos.y+0.5);
+        let i = x+2*y;
+        tasks[z-1].answer = tasks[z-1].possibilities[i];
+        if (tasks[z-1].possibilities[i] == tasks[z-1].solution) {
+            let answers = [
+                `Well done! ${(tasks[z-1].solution)}  is correct!`,
+                `Well done! ${(tasks[z-1].solution)} is the right answer!`,
+                `Well done! ${(tasks[z-1].solution)} is right!`,
+                `Perfect! ${(tasks[z-1].solution)}  is correct!`,
+                `Perfect! ${(tasks[z-1].solution)} is the right answer!`,
+                `Correct! ${(tasks[z-1].solution)} is the right answer!`,
+                `Correct! ${(tasks[z-1].solution)} is right!`,
+                `Great! ${(tasks[z-1].solution)} is correct!`,
+                `Great! ${(tasks[z-1].solution)} is right!`
+            ];
+            console.log(answers.random());
+            storage.XP++;
+        } else {
+            let answers = [
+                `${tasks[z-1].possibilities[i]} is incorrect. The correct solution would have been ${tasks[z-1].solution}.`,
+                `${tasks[z-1].possibilities[i]} is incorrect. ${tasks[z-1].solution} would have been the correct solution.`,
+                `${tasks[z-1].possibilities[i]} is wrong. The correct solution would have been ${tasks[z-1].solution}.`,
+                `${tasks[z-1].possibilities[i]} is not correct. The correct solution would have been ${tasks[z-1].solution}.`,
+                `${tasks[z-1].possibilities[i]} is not correct. ${tasks[z-1].solution} would have been the correct solution.`,
+                `${tasks[z-1].possibilities[i]} is not correct. The answer would have been ${tasks[z-1].solution}.`,
+                `${tasks[z-1].possibilities[i]} is wrong. ${tasks[z-1].solution} would have been the answer.`,
+                `${tasks[z-1].possibilities[i]} is wrong. The correct answer would have been ${tasks[z-1].solution}.`,
+                `${tasks[z-1].possibilities[i]} is sadly incorrect. The correct solution would be ${tasks[z-1].solution}.`,
+                `${tasks[z-1].possibilities[i]} is unfortunately incorrect. ${tasks[z-1].solution} would have been the correct solution.`,
+                `${tasks[z-1].possibilities[i]} is unfortunately incorrect. The correct solution was ${tasks[z-1].solution}.`,
+                `The answer ${tasks[z-1].possibilities[i]} is incorrect. The correct solution would have been ${tasks[z-1].solution}.`,
+                `The answer ${tasks[z-1].possibilities[i]} is false. The correct solution would have been ${tasks[z-1].solution}.`,
+                `The answer ${tasks[z-1].possibilities[i]} is incorrect. The correct solution was ${tasks[z-1].solution}.`,
+                `Your answer ${tasks[z-1].possibilities[i]} is wrong. ${tasks[z-1].solution} would have been the correct solution.`
+            ];
+            console.log(answers.random());
+            tasks.push(task);
+        }
+    }
+}
 let drawControl = function() {
     cb();
     carc(0.3-cw/cm, ch/cm-0.3, 0.2);
