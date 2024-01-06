@@ -21,22 +21,6 @@
     <body>
         <canvas id="canvas">
         </canvas>
-        <script src="./files/opentype.js">
-        </script>
-        <script src="./files/import.js">
-        </script>
-        <script src="./files/imageEarth.js">
-        </script>
-        <script src="./files/canvas.js">
-        </script>
-        <script src="./files/xyz.js">
-        </script>
-        <script src="./files/draw.js">
-        </script>
-        <script src="./files/numbers.js">
-        </script>
-        <script src="./files/touchfunctions.js">
-        </script>
         <script>
             // most important variables
             let canvas = document.getElementById("canvas");
@@ -269,7 +253,15 @@
             }
             
             async function startEverything() {
-                // try to load a script even if the browser has it in cache
+                // load the scripts (even if the browser has them in cache)
+                await loadScript(`./files/opentype.js?${Math.random().toString(36)}`);
+                await loadScript(`./files/import.js?${Math.random().toString(36)}`);
+                await loadScript(`./files/imageEarth.js?${Math.random().toString(36)}`);
+                await loadScript(`./files/canvas.js?${Math.random().toString(36)}`);
+                await loadScript(`./files/xyz.js?${Math.random().toString(36)}`);
+                await loadScript(`./files/draw.js?${Math.random().toString(36)}`);
+                await loadScript(`./files/numbers.js?${Math.random().toString(36)}`);
+                await loadScript(`./files/touchfunctions.js?${Math.random().toString(36)}`);
                 await loadScript(`https://kf256.github.io/various/differentFunctions.js?${Math.random().toString(36)}`);
                 
                 poslast = JSON.copy(pos);
