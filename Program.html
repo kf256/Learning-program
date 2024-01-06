@@ -270,7 +270,7 @@
             
             async function startEverything() {
                 // load font
-                let fontURL = "https://kf256.github.io/Learning-programm/files/Chilanka-Regular.otf";
+                let fontURL = "./files/Chilanka-Regular.otf";
                 let fetchResult = await fetch(fontURL);
                 console.log(`Fetch() returned: ${fetchResult}`);
                 let blob = await fetchResult.blob();
