@@ -11,6 +11,7 @@ if (!isTouchDevice) {
     canvas.addEventListener("touchcancel", (evt) => {touchupdate(evt,2);});
 }
 function touchstart(touchpos) {
+    console.log("touchstart", Date.now()%1000);
     if (state == "not started") {
         enterFullscreen();
         state = "start";
@@ -34,13 +35,15 @@ function touchstart(touchpos) {
     }
 }
 function touchmove(touchpos) {
+    console.log("touchmove", Date.now()%1000);
     for (let i = 0; i < Cursor.instances.length; i++) {
         Cursor.instances[i].update();
     }
 }
 function touchend(touchpos) {
-    console.log("touchend", Cursor.instances, controlCursor);
+    console.log("touchend", Date.now()%1000);
     for (let i = 0; i < Cursor.instances.length; i++) {
+        //Cursor.instances[i].update();
         if (Cursor.instances[i].x == touchpos.x && Cursor.instances[i].y == touchpos.y) {
             
             // call the cursor's remove() function
@@ -96,7 +99,12 @@ class Cursor {
                 index = i;
             }
         }
-        if (index == -1) throw "Cursor does not exist";
+        if (index == -1) {
+            throw "Cursor does not exist";
+        } else {
+            this.x = touches[index].x;
+            this.y = touches[index].y;
+        }
     }
     remove() {
         // code that is executed when the cursor disappears
