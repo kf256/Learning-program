@@ -78,5 +78,18 @@ let getImagePixel = function(name, x, y) {
     let index = x+images[name].width*y;
     return Boolean(images[name].data[Math.floor(index/32)] & (1<<(31-index%32)));
 };
-chilanka = opentype.parse(str2ab(JSON.parse(chilanka)));
+async function loadFont() {
+    let fontURL = "./files/Chilanka-Regular.otf";
+    let fetchResult = await fetch(fontURL);
+    console.log(`Fetch() returned: ${fetchResult}`);
+    let blob = await fetchResult.blob();
+    console.log(`Blob: ${blob}`);
+    let arrayBuffer = await new Promise(resolve => {
+        let reader = new FileReader();
+        reader.onload = () => {resolve(reader.result)};
+        reader.readAsArrayBuffer(blob);
+    });
+    console.log(`ArrayBuffer: ${arrayBuffer}`);
+    chilanka = opentype.parse(arrayBuffer);
+}
 let images = {};
