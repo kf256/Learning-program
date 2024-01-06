@@ -97,11 +97,11 @@ async function loadImageURL(URL) {
     canvasTMP.remove();
     
     // return data
-    let image = new Image(width, height, data);
+    let image = new SimpleImage(width, height, data);
     image.changeType("1 Bit UInt32Array");
     return image;
 }
-class Image() {
+class SimpleImage {
     constructor(width, height, data) {
         this.width = width;
         this.height = height;
