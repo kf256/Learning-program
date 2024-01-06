@@ -37,8 +37,6 @@
         </script>
         <script src="./files/touchfunctions.js">
         </script>
-        <script src="https://kf256.github.io/various/differentFunctions.js">
-        </script>
         <script>
             // most important variables
             let canvas = document.getElementById("canvas");
@@ -271,7 +269,11 @@
             }
             
             async function startEverything() {
+                // try to load a script even if the browser has it in cache
+                await loadScript(`https://kf256.github.io/various/differentFunctions.js?${Math.randInt(10**10).toString(36)}`);
+                
                 await loadFont(); // load chilanka
+                
                 draw(); // draw start screen
             }
             
