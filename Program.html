@@ -269,17 +269,21 @@
             };
             
             async function startEverything() {
-                fetch('https://kf256.github.io/Learning-programm/files/Chilanka-Regular.otf')
-                    .then(res => res.blob()) // Gets the response and returns it as a blob
-                    .then(blob => {
-                        return new Promise(resolve => {
-                            let reader = new FileReader();
-                            reader.onload = () => {resolve(reader.result)};
-                            reader.readAsArrayBuffer(blob);
-                        }
-                    }).then(arrayBuffer => {
-                        chilanka = opentype.parse(arrayBuffer);
-                    });
+                // load font
+                let fontURL = "https://kf256.github.io/Learning-programm/files/Chilanka-Regular.otf";
+                let fetchResult = await fetch(fontURL);
+                console.log(`Fetch() returned: ${fetchResult}`);
+                let blob = await fetchResult.blob();
+                console.log(`Blob: ${blob}`);
+                let arrayBuffer = await new Promise(resolve => {
+                    let reader = new FileReader();
+                    reader.onload = () => {resolve(reader.result)};
+                    reader.readAsArrayBuffer(blob);
+                });
+                console.log(`ArrayBuffer: ${arrayBuffer}`);
+                chilanka = opentype.parse(arrayBuffer);
+                
+                // draw start screen
                 draw();
             }
         </script>
