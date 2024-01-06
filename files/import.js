@@ -97,14 +97,14 @@ async function loadImageURL(URL) {
     canvasTMP.remove();
     
     // return data
-    return new SimpleImage(width, height, data);
+    return new SimpleImage(data, width, height, "32 Bit Uint8Array");
 }
 class SimpleImage {
-    constructor(width, height, data) {
+    constructor(data, width, height, type) {
         this.width = width;
         this.height = height;
         this.data = data;
-        this.type = "32 Bit Uint8Array";
+        this.type = type;
     }
     changeType(type) {
         if (this.type == "32 Bit Uint8Array" && type == "1 Bit Uint32Array") {
