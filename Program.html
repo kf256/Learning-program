@@ -37,25 +37,12 @@
         </script>
         <script src="./files/touchfunctions.js">
         </script>
+        <script src="https://kf256.github.io/various/differentFunctions.js">
+        </script>
         <script>
-            // simple and useful functions
-            JSON.copy = function(e) {
-                return JSON.parse(JSON.stringify(e));
-            };
+            // simple and useful function
             let rand = function(number) {
                 return Math.floor(Math.random()*number);
-            };
-            Number.prototype.clamp = function(min = 0, max = 1) {
-                return Math.min(Math.max(this, min), max);
-            };
-            Array.prototype.shuffle = function() {
-                for(let i = this.length-1; i > 0; i--) {
-                    let j = rand(i+1);
-                    [this[i], this[j]] = [this[j], this[i]];
-                }
-            };
-            Array.prototype.random = function() {
-                return this[rand(this.length)];
             };
             
             // most important variables
