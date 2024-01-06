@@ -97,7 +97,34 @@ async function loadImageURL(URL) {
     canvasTMP.remove();
     
     // return data
-    return {width: width, height: height, data: data};
+    let image = new Image(width, height, data);
+    image.changeType("1 Bit UInt32Array");
+    return image;
+}
+class Image() {
+    constructor(width, height, data) {
+        this.width = width;
+        this.height = height;
+        this.data = data;
+        this.type = "32 Bit UInt8Array";
+    }
+    changeType(type) {
+        if (this.type == "32 Bit UInt8Array" && type == "1 Bit UInt32Array") {
+            let dataNew = new UInt32Array(Math.ceil(this.width*this.height/32));
+            for (let i = 0; i < this.data.length; i+= 4) {
+                let x = (i/4)%this.width;
+                let y = (i/4-x)/this.width;
+                let brightnessRGB = (this.data[i]+this.data[i+1]+this.data[i+2])/3/256;
+                let brightnessRGBA = brightnessRGB*this.data[i+3]/256;
+                dataNew[Math.floor(i/4/32)] <<= 1;
+                if (brightnessRGBA > 0.5) dataNew[Math.floor(i/4/32)]++;
+            }
+            this.data = dataNew;
+            this.type = type;
+        } else {
+            throw `cannot switch from "${this.type}" to "${type}"`;
+        }
+    }
 }
 let getImagePixel = function(name, x, y) {
     if (!images[name]) throw "image does not exist";
