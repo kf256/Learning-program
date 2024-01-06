@@ -98,7 +98,7 @@ async function loadImageURL(URL) {
     
     // return data
     let image = new SimpleImage(width, height, data);
-    image.changeType("1 Bit UInt32Array");
+    image.changeType("1 Bit Uint32Array");
     return image;
 }
 class SimpleImage {
@@ -106,10 +106,10 @@ class SimpleImage {
         this.width = width;
         this.height = height;
         this.data = data;
-        this.type = "32 Bit UInt8Array";
+        this.type = "32 Bit Uint8Array";
     }
     changeType(type) {
-        if (this.type == "32 Bit UInt8Array" && type == "1 Bit UInt32Array") {
+        if (this.type == "32 Bit Uint8Array" && type == "1 Bit Uint32Array") {
             let dataNew = new UInt32Array(Math.ceil(this.width*this.height/32));
             for (let i = 0; i < this.data.length; i+= 4) {
                 let x = (i/4)%this.width;
