@@ -53,11 +53,8 @@ function draw() {
         cc();
     } else if (state == "learning") {
         drawUpdatePosition();
-        
         drawPercent();
-        
         for (let z = tasks.length; z > 0; z--) {
-            let task = tasks[z-1];
             xyzloc.z = z*taskDist;
             checkIfTaskCompleted(z);
             let viewDist = xyzrtt({x:0,y:0,z:0}).z;
@@ -65,54 +62,9 @@ function draw() {
                 state = "start";
                 pos = {x: 0, y: 0, z: 0};
             }
-            let alpha = viewDist/3-0.2;
-            if (viewDist > taskDist) alpha = (taskDist-viewDist+4)/3-0.2;
-            alpha = alpha.clamp();
-            
-            // draw task
-            if (alpha > 0) {
-                // draw white border around options
-                cb();
-                xyzpolygon(xyzsquare(2.1, 0, 0));
-                cfill(crgba(1, 1, 1, alpha));
-                cc();
-                
-                // write task and hint
-                cb();
-                xyztext(commands(tasks[z-1].task, 0, -1.2, 0.2));
-                xyztext(commands(tasks[z-1].hint, 0, 1.2, 0.2));
-                cstrk(0.20/viewDist, crgba(0, 0, 0, alpha));
-                cstrk(0.10/viewDist, crgba(0.5, 0.5, 0.5, alpha));
-                cfill(crgba(1, 1, 1, alpha));
-                cc();
-                
-                for (let x = -0.5; x < 1.5; x++) {
-                    for (let y = -0.5; y < 1.5; y++) {
-                        // draw area with option
-                        cb();
-                        xyzpolygon(xyzsquare(1, x, y));
-                        if (xyzloc.z-4 < pos.z) {
-                            let i = Math.round(x+0.5)+2*Math.round(y+0.5);
-                            if (tasks[z-1].possibilities[i] == tasks[z-1].solution) cfill(crgba(0, 1, 0, alpha));
-                            else cfill(crgba(1, 0, 0, alpha));
-                        } else cfill(crgba(0, 0, 1, alpha));
-                        cstrk(0.1/viewDist, crgba(0, 0, 0, alpha));
-                        cc();
-                        
-                        // write possibility
-                        cb();
-                        xyztext(commands(tasks[z-1].possibilities[2*y+x+1.5], x, y, 1));
-                        cstrk(0.25/viewDist, crgba(0, 0, 0, alpha));
-                        cstrk(0.15/viewDist, crgba(0.5, 0.5, 0.5, alpha));
-                        cstrk(0.05/viewDist, crgba(1, 1, 1, alpha));
-                        cc();
-                    }
-                }
-            }
+            drawTask(z);
         }
-        
         drawControl();
-        
         drawPaperPlane();
     }
     
@@ -205,6 +157,56 @@ function checkIfTaskCompleted(z) {
             ];
             console.log(answers.random());
             tasks.push(task);
+        }
+    }
+}
+function drawTask(z) {
+    let task = tasks[z-1];
+    let viewDist = xyzrtt({x:0,y:0,z:0}).z;
+    
+    // calculate alpha
+    let alpha = viewDist/3-0.2;
+    if (viewDist > taskDist) alpha = (taskDist-viewDist+4)/3-0.2;
+    alpha = alpha.clamp();
+    
+    // draw task
+    if (alpha > 0) {
+        // draw white border around options
+        cb();
+        xyzpolygon(xyzsquare(2.1, 0, 0));
+        cfill(crgba(1, 1, 1, alpha));
+        cc();
+        
+        // write task and hint
+        cb();
+        xyztext(commands(task.task, 0, -1.2, 0.2));
+        xyztext(commands(task.hint, 0, 1.2, 0.2));
+        cstrk(0.20/viewDist, crgba(0, 0, 0, alpha));
+        cstrk(0.10/viewDist, crgba(0.5, 0.5, 0.5, alpha));
+        cfill(crgba(1, 1, 1, alpha));
+        cc();
+        
+        for (let x = -0.5; x < 1.5; x++) {
+            for (let y = -0.5; y < 1.5; y++) {
+                // draw area with option
+                cb();
+                xyzpolygon(xyzsquare(1, x, y));
+                if (xyzloc.z-4 < pos.z) {
+                    let i = Math.round(x+0.5)+2*Math.round(y+0.5);
+                    if (task.possibilities[i] == task.solution) cfill(crgba(0, 1, 0, alpha));
+                    else cfill(crgba(1, 0, 0, alpha));
+                } else cfill(crgba(0, 0, 1, alpha));
+                cstrk(0.1/viewDist, crgba(0, 0, 0, alpha));
+                cc();
+                
+                // write possibility
+                cb();
+                xyztext(commands(task.possibilities[2*y+x+1.5], x, y, 1));
+                cstrk(0.25/viewDist, crgba(0, 0, 0, alpha));
+                cstrk(0.15/viewDist, crgba(0.5, 0.5, 0.5, alpha));
+                cstrk(0.05/viewDist, crgba(1, 1, 1, alpha));
+                cc();
+            }
         }
     }
 }
