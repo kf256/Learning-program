@@ -50,6 +50,8 @@ function touchend(touchpos) {
             let instancesAfter = Cursor.instances.slice(i+1, Cursor.instances.length);
             Cursor.instances = instancesBefore.concat(instancesAfter);
             
+            console.log("Removed", Cursor.instances, controlCursor);
+            
             // as the cursor, which was previously at index i+1, is now at index i, index i must be checked again
             i--;
         }
