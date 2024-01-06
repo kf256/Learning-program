@@ -18,6 +18,20 @@ function touchstart(touchpos) {
         newTasks();
         state = "learning";
     }
+    if (state == "learning") {
+        let x = 0.3-cw/cm;
+        let y = ch/cm-0.3;
+        let r = 0.2;
+        let dx = (touchpos.x-cw2-cm2*x)/cm2;
+        let dy = (touchpos.y-ch2-cm2*y)/cm2;
+        let d = Math.sqrt(dx**2+dy**2);
+        if (d < r) {
+            controlCursor = new Cursor(touchpos.x, touchpos.y);
+            controlCursor.remove = function() {
+                controlCursor = null;
+            };
+        }
+    }
 }
 function touchmove(touchpos) {
     for (let i = 0; i < Cursor.instances.length; i++) {
@@ -62,9 +76,9 @@ function touchupdate(evt, type) {
     }
 }
 class Cursor {
-    constructor(index) {
-        this.x = touches[index].x;
-        this.y = touches[index].y;
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
         Cursor.instances.push(this);
     }
     update() {
