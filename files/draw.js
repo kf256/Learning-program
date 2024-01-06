@@ -1,4 +1,4 @@
-let draw = function() {
+function draw() {
     drawnumber++;
     
     // calculate delay and update framerate variables
@@ -134,7 +134,7 @@ let draw = function() {
     waitTime = Math.round(waitTime);
     setTimeout(draw, waitTime);
 };
-let drawUpdatePosition = function() {
+function drawUpdatePosition() {
     // move forward
     speed.z = 2;
     
@@ -208,7 +208,7 @@ function checkIfTaskCompleted(z) {
         }
     }
 }
-let drawControl = function() {
+function drawControl() {
     cb();
     carc(0.3-cw/cm, ch/cm-0.3, 0.2);
     cfill("#fff8");
@@ -235,7 +235,7 @@ let drawControl = function() {
         }
     }
 };
-let drawPercent = function() {
+function drawPercent() {
     xyzloc.z = (tasks.length+1)*taskDist;
     let viewDist = xyzrtt({x:0,y:0,z:0}).z;
     let alpha = viewDist/3-0.2;
@@ -247,7 +247,7 @@ let drawPercent = function() {
     cfill(crgba(1, 1, 1, alpha));
     cc();
 };
-let drawPaperPlane = function() {
+function drawPaperPlane() {
     xyzloc.x = pos.x;
     xyzloc.y = pos.y;
     xyzloc.z = pos.z+1;
@@ -294,13 +294,13 @@ let drawPaperPlane = function() {
     }
     xyzreset();
 };
-let drawCursor = function() {
+function drawCursor() {
     switch (cursorType) {
         case 0: drawStarCursors();  break;
         case 1: drawEarthCursors(); break;
     }
 };
-let drawStarCursors = function() {
+function drawStarCursors() {
     for (let i = 0; i < touches.length; i++) {
         cb();
         for (let j = 0; j <= 10; j++) {
@@ -316,7 +316,7 @@ let drawStarCursors = function() {
         cc();
     }
 };
-let drawEarthCursors = function() {
+function drawEarthCursors() {
     for (let i = 0; i < touches.length; i++) {
         let s = Math.round(cm*cursorSize*3);
         let imageData = ctx.getImageData(touches[i].x-s, touches[i].y-s, 2*s, 2*s);
