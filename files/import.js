@@ -97,10 +97,7 @@ async function loadImageURL(URL) {
     canvasTMP.remove();
     
     // return data
-    let image = new SimpleImage(width, height, data);
-    image.changeType("1 Bit Uint32Array");
-    images.earth = image;
-    return image;
+    return new SimpleImage(width, height, data);
 }
 class SimpleImage {
     constructor(width, height, data) {
