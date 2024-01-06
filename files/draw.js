@@ -316,22 +316,21 @@ let drawEarthCursors = function() {
             let width = Math.sqrt(s**2-y**2);
             for (let x = -s; x < s; x++) {
                 let index = (x+s+(y+s)*s*2)*4;
-                //console.log(imageData.data.slice(index, index+4));
                 let f = 1-Math.asin(Math.hypot(x, y)/s)/Math.PI*1;
                 if (Math.abs(x) > width) continue;
                 let X = Math.asin(x/width)/Math.PI/2+new Date().getTime()/10*cursorSpeed;
                 let Y = y/s/2+0.5;
-                //console.log(X, Y);
                 if (getImagePixel("earth", X, Y)) {
-                    imageData.data[index+0] = 0*f;
-                    imageData.data[index+1] = 255*f;
-                    imageData.data[index+2] = 0*f;
-                    imageData.data[index+3] = 255;
-                    //console.log(X, Y);
-                } else {
+                    // blue
                     imageData.data[index+0] = 0*f;
                     imageData.data[index+1] = 0*f;
                     imageData.data[index+2] = 255*f;
+                    imageData.data[index+3] = 255;
+                } else {
+                    // green
+                    imageData.data[index+0] = 0*f;
+                    imageData.data[index+1] = 255*f;
+                    imageData.data[index+2] = 0*f;
                     imageData.data[index+3] = 255;
                 }
             }
