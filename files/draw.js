@@ -77,6 +77,7 @@ let draw = function() {
                         `Great! ${(tasks[z-1].solution)} is right!`
                     ];
                     console.log(answers.random());
+                    storage.XP++;
                 } else {
                     let answers = [
                         `${tasks[z-1].possibilities[i]} is incorrect. The correct solution would have been ${tasks[z-1].solution}.`,

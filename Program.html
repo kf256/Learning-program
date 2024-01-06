@@ -27,7 +27,9 @@
             let ctx = canvas.getContext("2d");
             let state = "not started";
             let tasks = [];
-            if (localStorage["Learning program"] == undefined) localStorage["Learning program"] = "";
+            if (localStorage["Learning program"] == undefined) {
+                localStorage["Learning program"] = JSON.stringify({XP: 0});
+            }
             let storage = JSON.parse(localStorage["Learning program"]);
             
             // settings
