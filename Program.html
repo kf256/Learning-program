@@ -40,11 +40,6 @@
         <script src="https://kf256.github.io/various/differentFunctions.js">
         </script>
         <script>
-            // simple and useful function
-            let rand = function(number) {
-                return Math.floor(Math.random()*number);
-            };
-            
             // most important variables
             let canvas = document.getElementById("canvas");
             let ctx = canvas.getContext("2d");
@@ -196,7 +191,7 @@
             let randNumberDigit = function(number) {
                 let digits = number.digits.replace(".", "");
                 let maxdigit = number.maxdigit;
-                let digit = rand(maxdigit);
+                let digit = Math.randInt(maxdigit);
                 return digit;
             };
             let shownNumberDigits = function(number, digit) {
@@ -226,8 +221,8 @@
                     let possibilities = [];
                     possibilities.push(solution);
                     for (let i = 0; i < 3; i++) {
-                        let p = rand(10)+"";
-                        while (possibilities.indexOf(p) != -1) p = rand(10)+"";
+                        let p = Math.randInt(10)+"";
+                        while (possibilities.indexOf(p) != -1) p = Math.randInt(10)+"";
                         possibilities.push(p);
                     }
                     possibilities.shuffle();
