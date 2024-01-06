@@ -99,8 +99,13 @@
                 else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
                 else if (document.msExitFullscreen)     document.msExitFullscreen();
             };
+            
             let commands = function(text, x = 0, y = 0, size = 0.1, font = chilanka) {
+                
+                // get the commands from opentype.js
                 let cmd = font.getPath(text, 0, 0, size).commands;
+                
+                // search smallest and biggest x and y positions
                 let minX = 0;
                 let maxX = 0;
                 let minY = 0;
@@ -149,8 +154,12 @@
                         }
                     }
                 }
+                
+                // calculate the center of the text
                 let centerx = (minX+maxX)/2-x;
                 let centery = (minY+maxY)/2-y;
+                
+                // center text
                 for (let i = 0; i < cmd.length; i++) {
                     switch (cmd[i].type) {
                         case "M": {
@@ -181,8 +190,11 @@
                         }
                     }
                 }
+                
+                // return commands
                 return cmd;
             };
+            
             let randNumber = function() {
                 let n = numbers;
                 let k = Object.keys(n);
@@ -239,10 +251,11 @@
                     continue;
                 }
             };
+            
             let numbertotext = function(number, decimalPlaces = 0, system = 10) {
                 let text = Math.floor(number).toString(system);
                 if (decimalPlaces == 0) return text;
-                text+= ".";
+                text += ".";
                 for (let i = 1; i <= decimalPlaces; i++) {
                     text+= (Math.floor(system**i*number)%system).toString(system);
                 }
@@ -267,11 +280,10 @@
             };
             
             async function startEverything() {
-                await loadFont();
-                
-                // draw start screen
-                draw();
+                await loadFont(); // load chilanka
+                draw(); // draw start screen
             }
+            
             startEverything();
         </script>
     </body>
