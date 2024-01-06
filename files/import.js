@@ -99,6 +99,7 @@ async function loadImageURL(URL) {
     // return data
     let image = new SimpleImage(width, height, data);
     image.changeType("1 Bit Uint32Array");
+    images.earth = image;
     return image;
 }
 class SimpleImage {
