@@ -65,6 +65,40 @@ let decodeImage = function(data) {
     }
     return array;
 };
+async function loadImageURL(URL) {
+    //create img element and load URL
+    let img = document.createElement("img");
+    let imgPromise = new Promise(resolve => {
+        img.addEventListener("load", resolve);
+    });
+    img.src = URL;
+    document.appendChild(img);
+    
+    // wait for img to load
+    await imgPromise;
+    
+    // create canvas element
+    let canvasTMP = document.createElement("canvas");
+    canvasTMP.width = img.width;
+    canvasTMP.height = img.height;
+    document.appendChild(canvasTMP);
+    let ctxTMP = canvasTMP.getContext("2d");
+    
+    // draw image on canvas
+    ctxTMP.drawImage(img, 0, 0);
+    
+    // read data from canvas and save width and height
+    let data = ctxTMP.getImageData(0, 0, canvasTMP.width, canvasTMP.height).data;
+    let width = canvasTMP.width;
+    let height = canvasTMP.height;
+    
+    // delete elements
+    img.remove();
+    canvasTMP.remove();
+    
+    // return data
+    return {width: width, height: height, data: data};
+}
 let getImagePixel = function(name, x, y) {
     if (!images[name]) throw "image does not exist";
     x *= images[name].width;
@@ -78,6 +112,7 @@ let getImagePixel = function(name, x, y) {
     let index = x+images[name].width*y;
     return Boolean(images[name].data[Math.floor(index/32)] & (1<<(31-index%32)));
 };
+let chilanka = null;
 async function loadFont() {
     let fontURL = "./files/Chilanka-Regular.otf";
     let fetchResult = await fetch(fontURL);
