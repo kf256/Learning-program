@@ -39,7 +39,7 @@ function touchmove(touchpos) {
     }
 }
 function touchend(touchpos) {
-    console.log("touchend");
+    console.log("touchend", Cursor.instances, controlCursor);
     for (let i = 0; i < Cursor.instances.length; i++) {
         if (Cursor.instances[i].x == touchpos.x && Cursor.instances[i].y == touchpos.y) {
             
