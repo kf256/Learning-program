@@ -72,6 +72,7 @@ async function loadImageURL(URL) {
         img.addEventListener("load", resolve);
     });
     img.src = URL;
+    img.style.display = "none";
     document.body.appendChild(img);
     
     // wait for img to load
@@ -81,6 +82,7 @@ async function loadImageURL(URL) {
     let canvasTMP = document.createElement("canvas");
     canvasTMP.width = img.width;
     canvasTMP.height = img.height;
+    canvasTMP.style.display = "none";
     document.body.appendChild(canvasTMP);
     let ctxTMP = canvasTMP.getContext("2d");
     
