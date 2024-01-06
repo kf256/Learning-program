@@ -20,10 +20,26 @@ let touchstart = function(touchpos) {
     }
 };
 let touchmove = function(touchpos) {
-    // ...
+    for (let i = 0; i < Cursor.instances.length; i++) {
+        Cursor.instances[i].update();
+    }
 };
 let touchend = function(touchpos) {
-    // ...
+    for (let i = 0; i < Cursor.instances.length; i++) {
+        if (Cursor.instances[i].x == touchpos.x && Cursor.instances[i].y == touchpos.y) {
+            
+            // call the cursor's remove() function
+            Cursor.instances[i].remove();
+            
+            // remove cursor form instances list
+            let instancesBefore = Cursor.instances.slice(0, i);
+            let instancesAfter = Cursor.instances.slice(i+1, Cursor.instances.length);
+            Cursor.instances = instancesBefore.concat(instancesAfter);
+            
+            // as the cursor, which was previously at index i+1, is now at index i, index i must be checked again
+            i--;
+        }
+    }
 };
 let touchupdate = function(evt, type) {
     if (isTouchDevice) {
@@ -45,3 +61,29 @@ let touchupdate = function(evt, type) {
         case 2: touchend(touchpos);   break;
     }
 };
+class Cursor {
+    constructor(index) {
+        this.x = touches[index].x;
+        this.y = touches[index].y;
+        Cursor.instances.push(this);
+    }
+    update() {
+        let index = -1;
+        let indexDist = Infinity;
+        for (let i = 0; i < touches.length; i++) {
+            let distX = this.x-touches[i].x;
+            let distY = this.y-touches[i].y;
+            let dist = Math.hypot(distX, distY);
+            if (dist < indexDist) {
+                indexDist = dist;
+                index = i;
+            }
+        }
+        if (index == -1) throw "Cursor does not exist";
+    }
+    remove() {
+        // code that is executed when the cursor disappears
+    }
+    
+    static instances = [];
+}
