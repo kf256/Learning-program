@@ -72,7 +72,7 @@ async function loadImageURL(URL) {
         img.addEventListener("load", resolve);
     });
     img.src = URL;
-    document.appendChild(img);
+    document.body.appendChild(img);
     
     // wait for img to load
     await imgPromise;
@@ -81,7 +81,7 @@ async function loadImageURL(URL) {
     let canvasTMP = document.createElement("canvas");
     canvasTMP.width = img.width;
     canvasTMP.height = img.height;
-    document.appendChild(canvasTMP);
+    document.body.appendChild(canvasTMP);
     let ctxTMP = canvasTMP.getContext("2d");
     
     // draw image on canvas
