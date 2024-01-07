@@ -228,13 +228,15 @@ function drawControl() {
     let dist = Math.hypot(dy, dx);
     let angle = Math.atan2(dy, dx);
     if (dist > controlRadius) dist = controlRadius;
-    let controlCircleX = Math.cos(angle)*dist;
-    let controlCircleY = Math.sin(angle)*dist;
     let factor = 0.95**(controlRadius/dist); // enable both precise control and fast movements
     speed.x+= dx/controlRadius*3*factor;
     speed.y+= dy/controlRadius*3*factor;
+    
+    if (dist > controlRadius/2) dist = controlRadius/2;
+    let controlCircleX = Math.cos(angle)*dist;
+    let controlCircleY = Math.sin(angle)*dist;
     cb();
-    carc(controlX+dx/2, controlY+dy/2, controlRadius/2);
+    carc(controlX+controlCircleX, controlY+controlCircleY, controlRadius/2);
     cfill("#fff8");
     cstrk(0.02, "#fff8");
     cstrk(0.01, "#fff");
