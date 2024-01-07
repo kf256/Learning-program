@@ -119,13 +119,12 @@ function updateChangesInTouches() {
     };
     
     while (touchesLastFinished.indexOf(false) != -1) {
-        if (touchesFinished.indexOf(false) == -1) break;
         
         // calculate old and new cursor
         let data = allCursorsMinDist();
         
         // check if the nearest cursor to the calculated old cursor position is the same as the calculated new cursor
-        if (data.dist == cursorMinDist(data.index1, false).dist) {
+        if (data.dist == cursorMinDist(data.index1, false).dist && touchesFinished.indexOf(false) == -1) {
             
             // save that the cursor is finished
             touchesLastFinished[data.index1] = true;
