@@ -36,9 +36,11 @@ function touchstart(index) {
     }
 }
 function touchmove(indexOld, indexNew) {
+    console.log(indexOld, indexNew);
     // ...
 }
 function touchend(index) {
+    console.log(index);
     // ...
 }
 function touchupdate(evt, type) {
