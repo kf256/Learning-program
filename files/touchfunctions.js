@@ -20,7 +20,6 @@ function touchstart(index) {
         state = "learning";
     }
     if (state == "learning") {
-        console.log(`cursor at index ${index} may be added`);
         let x = 0.3-cw/cm;
         let y = ch/cm-0.3;
         let r = 0.2;
@@ -29,10 +28,8 @@ function touchstart(index) {
         let d = Math.sqrt(dx**2+dy**2);
         if (d < r) {
             controlCursor = new Cursor(index);
-            console.log("Cursor added");
             controlCursor.remove = function() {
                 controlCursor = null;
-                console.log("Cursor removed");
             };
         }
     }
