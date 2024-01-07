@@ -142,4 +142,5 @@ function updateChangesInTouches() {
         return result;
     };
     console.log(allCursorsMinDist());
+    touchesLast = JSON.copy(touches);
 };
