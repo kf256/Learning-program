@@ -211,10 +211,12 @@ function drawTask(z) {
     }
 }
 function drawControl() {
+    // calculate the position of the control and save the position and size to variables
     let controlX = 0.3-cw/cm;
     let controlY = ch/cm-0.3;
     let controlRadius = 0.2;
     
+    // draw the outer control circle
     cb();
     carc(controlX, controlY, controlRadius);
     cfill("#fff8");
@@ -222,19 +224,42 @@ function drawControl() {
     cstrk(0.01, "#fff");
     cc();
     
-    if (controlCursor == null) return;
-    let dx = (controlCursor.x-cw2)/cm2-controlX;
-    let dy = (controlCursor.y-ch2)/cm2-controlY;
+    // declare the cursor position
+    let cursorX, cursorY;
+    
+    // define the cursor position
+    if (controlCursor == null) {
+        // if there is no control cursor, the cursor position is the center of the control circle
+        cursorX = controlX;
+        cursorY = controlY;
+    } else {
+        // convert the position of the cursor from pixels to the unit of measurement of controlX, controlY and controlRadius
+        cursorX = (controlCursor.x-cw2)/cm2;
+        cursorY = (controlCursor.y-ch2)/cm2;
+    }
+    
+    // calculate the distance and angle between the cursor and the control
+    let dx = cursorX-controlX;
+    let dy = cursorY-controlY;
     let dist = Math.hypot(dy, dx);
     let angle = Math.atan2(dy, dx);
-    if (dist > controlRadius) dist = controlRadius;
-    let factor = 0.95**(controlRadius/dist); // enable both precise control and fast movements
-    speed.x+= dx/controlRadius*3*factor;
-    speed.y+= dy/controlRadius*3*factor;
     
-    if (dist > controlRadius/2) dist = controlRadius/2;
+    // limit the value of dist to provent too fast movement
+    if (dist > controlRadius) dist = controlRadius;
+    
+    // update the speed
+    let factor = dist/controlRadius;
+    speed.x+= dx*factor;
+    speed.y+= dy*factor;
+    
+    // because the inner control circle should not move out of the outer circle, limit the value of dist again
+    if (dist > controlRadius/3) dist = controlRadius/3;
+    
+    // calculate the position of the inner control circle
     let controlCircleX = Math.cos(angle)*dist;
     let controlCircleY = Math.sin(angle)*dist;
+    
+    // draw the inner control circle
     cb();
     carc(controlX+controlCircleX, controlY+controlCircleY, controlRadius/2);
     cfill("#fff8");
