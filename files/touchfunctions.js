@@ -120,7 +120,7 @@ function updateChangesInTouches() {
     let cursorMinDist = (index1) => {
         let result = Infinity;
         let index = -1;
-        for (let index2 = 0; index2 < cursors.length; index2++) {
+        for (let index2 = 0; index2 < touches.length; index2++) {
             let dist = distBetweenCursors(index1, index2);
             if (dist <= result) {
                 result = dist;
