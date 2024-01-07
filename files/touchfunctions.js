@@ -61,10 +61,10 @@ class Cursor {
         Cursor.instances.push(this);
     }
     get x() {
-        return cursors[this.index].x;
+        return touches[this.index].x;
     }
     get y() {
-        return cursors[this.index].y;
+        return touches[this.index].y;
     }
     remove() {
         // code that is executed when the cursor disappears
