@@ -110,17 +110,19 @@ class Cursor {
     static instances = [];
 }
 function updateChangesInTouches() {
-    console.log(touchesLast, touches);
+    let touchesFinished = new Array(touches.length).fill(false);
+    let touchesLastFinished = new Array(touchesLast.length).fill(false);
     let distBetweenCursors = (index1, index2) => {
         let distX = touchesLast[index1].x-touches[index2].x;
         let distY = touchesLast[index1].y-touches[index2].y;
         let dist = Math.hypot(distX, distY);
         return dist;
     };
-    let cursorMinDist = (index1) => {
+    let cursorMinDist = (index1, continueIfFinished = true) => {
         let result = Infinity;
         let index = -1;
         for (let index2 = 0; index2 < touches.length; index2++) {
+            if (touchesFinished[index2] && continueIfFinished) continue;
             let dist = distBetweenCursors(index1, index2);
             if (dist <= result) {
                 result = dist;
@@ -132,15 +134,30 @@ function updateChangesInTouches() {
     let allCursorsMinDist = () => {
         let result = {dist: Infinity, index1: -1, index2: -1};
         for (let index1 = 0; index1 < touchesLast.length; index1++) {
+            if (touchesLastFinished[index1]) continue;
             let data = cursorMinDist(index1);
             if (data.dist <= result.dist) {
                 result.dist = data.dist;
-                result.index1 = index1;
                 result.index2 = data.index2;
+                result.index1 = index1;
             }
         }
         return result;
     };
-    console.log(allCursorsMinDist());
+    while (touchesLastFinished.indexOf(false) != -1) {
+        let data = allCursorsMinDist();
+        if (data.dist == cursorMinDist(data.index1, false)) {
+            touchesLastFinished[data.index1] = true;
+            touchesFinished[data.index2] = true;
+            console.log(`Cursor at previous index ${data.index1}, now index ${data.index2}, was moved ${Math.round(data.dist)} Pixels.`);
+        } else {
+            touchesLastFinished[data.index1] = true;
+            console.log(`Cursor at previous index ${data.index1} was removed.`);
+        }
+        for (let index2 = 0; index2 < touches.length; index2++) {
+            if (touchesFinished[index2]) continue;
+            console.log(`Cursor at index ${data.index1} was added.`);
+        }
+    }
     touchesLast = JSON.copy(touches);
 };
