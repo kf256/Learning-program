@@ -1,5 +1,6 @@
 let isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 let touches = [];
+let touchesLast = [];
 if (!isTouchDevice) {
     canvas.addEventListener("mousedown",   (evt) => {touchupdate(evt,0);});
     canvas.addEventListener("mousemove",   (evt) => {touchupdate(evt,1);});
@@ -70,6 +71,7 @@ function touchupdate(evt, type) {
             canvas.style.cursor = "";
         }
     }
+    updateChangesInTouches();
     let touchpos = isTouchDevice ? {x: evt.pageX, y: evt.pageY} : {x: evt.clientX, y: evt.clientY};
     switch (type) {
         case 0: touchstart(touchpos); break;
@@ -107,3 +109,37 @@ class Cursor {
     
     static instances = [];
 }
+function updateChangesInTouches() {
+    console.log(touchesLast, touches);
+    let distBetweenCursors = (index1, index2) => {
+        let distX = touchesLast[index1].x-touches[index2].x;
+        let distY = touchesLast[index1].y-touches[index2].y;
+        let dist = Math.hypot(distX, distY);
+        return dist;
+    };
+    let cursorMinDist = (index1) => {
+        let result = Infinity;
+        let index = -1;
+        for (let index2 = 0; index2 < cursors.length; index2++) {
+            let dist = distBetweenCursors(index1, index2);
+            if (dist <= result) {
+                result = dist;
+                index = index2;
+            }
+        }
+        return {dist: result, index2: index};
+    };
+    let allCursorsMinDist = () => {
+        let result = {dist: Infinity, index1: -1, index2: -1};
+        for (let index1 = 0; index1 < cursorsLast.length; index1++) {
+            let data = cursorMinDist(index1);
+            if (data.dist <= result.dist) {
+                result.dist = data.dist;
+                result.index1 = index1;
+                result.index2 = data.index2;
+            }
+        }
+        return result;
+    };
+    console.log(allCursorsMinDist());
+};
