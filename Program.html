@@ -165,6 +165,7 @@
             
             async function startEverything() {
                 // load the scripts (even if the browser has them in cache)
+                await loadScript(`https://kf256.github.io/various/differentFunctions.js?${Math.random().toString(36)}`); // some helpful functions (e.g. getting a random element of an array)
                 await loadScript(`./files/opentype.js?${Math.random().toString(36)}`); // opentype.js library
                 await loadScript(`./files/commands.js?${Math.random().toString(36)}`); // function using opentype.js library
                 await loadScript(`./files/import.js?${Math.random().toString(36)}`); // functions to import other files
@@ -173,7 +174,6 @@
                 await loadScript(`./files/draw.js?${Math.random().toString(36)}`); // draw() function and functions drawing parts of the user interface
                 await loadScript(`./files/numbers.js?${Math.random().toString(36)}`); // JavaScript file containing numbers that can be learned
                 await loadScript(`./files/touchfunctions.js?${Math.random().toString(36)}`); // functions for both devives using a mouse and touch devices
-                await loadScript(`https://kf256.github.io/various/differentFunctions.js?${Math.random().toString(36)}`); // some helpful functions (e.g. getting a random element of an array)
                 
                 // integrate earth.png image
                 let earthImage = await loadImageURL("./files/Earth.png");
