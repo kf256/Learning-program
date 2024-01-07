@@ -60,6 +60,12 @@ class Cursor {
         this.index = index;
         Cursor.instances.push(this);
     }
+    get x() {
+        return cursors[this.index].x;
+    }
+    get y() {
+        return cursors[this.index].y;
+    }
     remove() {
         // code that is executed when the cursor disappears
     }
