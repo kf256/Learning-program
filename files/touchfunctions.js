@@ -30,17 +30,14 @@ function touchstart(index) {
             controlCursor = new Cursor(index);
             controlCursor.remove = function() {
                 controlCursor = null;
-                console.log("removed");
             };
         }
     }
 }
 function touchmove(indexOld, indexNew) {
-    console.log(indexOld, indexNew);
     // ...
 }
 function touchend(index) {
-    console.log(index);
     // ...
 }
 function touchupdate(evt, type) {
