@@ -223,8 +223,8 @@ function drawControl() {
     cc();
     
     if (controlCursor == null) return;
-    let dx = (touches[controlCursor.index].x-cw2)/cm2-controlX;
-    let dy = (touches[controlCursor.index].y-ch2)/cm2-controlY;
+    let dx = (controlCursor.x-cw2)/cm2-controlX;
+    let dy = (controlCursor.y-ch2)/cm2-controlY;
     let dist = Math.hypot(dy, dx);
     let angle = Math.atan2(dy, dx);
     if (dist > controlRadius) dist = controlRadius;
