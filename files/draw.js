@@ -247,10 +247,13 @@ function drawControl() {
     // limit the value of dist to provent too fast movement
     if (dist > controlRadius) dist = controlRadius;
     
+    // calculate a factor for the speed that allows precise and fast movements
+    let factor = Math.sin(dist/controlRadius*Math.PI/2)**2;
+    factor *= controlSpeed;
+    
     // update the speed
-    let factor = dist/controlRadius;
-    speed.x+= dx*factor;
-    speed.y+= dy*factor;
+    speed.x+= Math.cos(angle)*factor;
+    speed.y+= Math.sin(angle)*factor;
     
     // because the inner control circle should not move out of the outer circle, limit the value of dist again
     if (dist > controlRadius/3) dist = controlRadius/3;
