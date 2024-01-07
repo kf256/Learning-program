@@ -217,25 +217,24 @@ function drawControl() {
     cstrk(0.02, "#fff8");
     cstrk(0.01, "#fff");
     cc();
-    for (let i = 0; i < touches.length; i++) {
-        let x = 0.3-cw/cm;
-        let y = ch/cm-0.3;
-        let r = 0.2;
-        let dx = (touches[i].x-cw2-cm2*x)/cm2;
-        let dy = (touches[i].y-ch2-cm2*y)/cm2;
-        let d = Math.sqrt(dx**2+dy**2);
-        if (d < r) {
-            let factor = 0.95**(r/d); // enable both precise control and fast movements
-            speed.x+= dx/r*3*factor;
-            speed.y+= dy/r*3*factor;
-            cb();
-            carc(x+dx/2, y+dy/2, r/2);
-            cfill("#fff8");
-            cstrk(0.02, "#fff8");
-            cstrk(0.01, "#fff");
-            cc();
-        }
-    }
+    
+    if (controlCursor == null) return;
+    let x = 0.3-cw/cm;
+    let y = ch/cm-0.3;
+    let r = 0.2;
+    let dx = (touches[controlCursor.index].x-cw2-cm2*x)/cm2;
+    let dy = (touches[controlCursor.index].y-ch2-cm2*y)/cm2;
+    let d = Math.sqrt(dx**2+dy**2);
+    if (d > r) d = r;
+    let factor = 0.95**(r/d); // enable both precise control and fast movements
+    speed.x+= dx/r*3*factor;
+    speed.y+= dy/r*3*factor;
+    cb();
+    carc(x+dx/2, y+dy/2, r/2);
+    cfill("#fff8");
+    cstrk(0.02, "#fff8");
+    cstrk(0.01, "#fff");
+    cc();
 };
 function drawPercent() {
     xyzloc.z = (tasks.length+1)*taskDist;
