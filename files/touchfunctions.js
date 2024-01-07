@@ -146,7 +146,6 @@ function updateChangesInTouches() {
     };
     while (touchesLastFinished.indexOf(false) != -1) {
         let data = allCursorsMinDist();
-        console.log(data);
         if (data.dist == cursorMinDist(data.index1, false).dist && data.index2 != -1) {
             touchesLastFinished[data.index1] = true;
             touchesFinished[data.index2] = true;
