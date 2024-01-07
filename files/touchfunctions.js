@@ -155,10 +155,10 @@ function updateChangesInTouches() {
             touchesLastFinished[data.index1] = true;
             console.log(`Cursor at previous index ${data.index1} was removed.`);
         }
-        for (let index2 = 0; index2 < touches.length; index2++) {
-            if (touchesFinished[index2]) continue;
-            console.log(`Cursor at index ${data.index1} was added.`);
-        }
+    }
+    for (let index2 = 0; index2 < touches.length; index2++) {
+        if (touchesFinished[index2]) continue;
+        console.log(`Cursor at index ${index2} was added.`);
     }
     touchesLast = JSON.copy(touches);
 };
