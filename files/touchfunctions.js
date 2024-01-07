@@ -67,14 +67,19 @@ class Cursor {
     static instances = [];
 }
 function updateChangesInTouches() {
+    // save which cursors have already been processed
     let touchesFinished = new Array(touches.length).fill(false);
     let touchesLastFinished = new Array(touchesLast.length).fill(false);
+    
+    // calculate the distance between two cursors
     let distBetweenCursors = (index1, index2) => {
         let distX = touchesLast[index1].x-touches[index2].x;
         let distY = touchesLast[index1].y-touches[index2].y;
         let dist = Math.hypot(distX, distY);
         return dist;
     };
+    
+    // search the next cursor to the cursor previously being at index index1
     let cursorMinDist = (index1, continueIfFinished = true) => {
         let result = Infinity;
         let index = -1;
@@ -88,6 +93,8 @@ function updateChangesInTouches() {
         }
         return {dist: result, index2: index};
     };
+    
+    // search the cursors that have the minimum distance
     let allCursorsMinDist = () => {
         let result = {dist: Infinity, index1: -1, index2: -1};
         for (let index1 = 0; index1 < touchesLast.length; index1++) {
@@ -101,20 +108,37 @@ function updateChangesInTouches() {
         }
         return result;
     };
+    
     while (touchesLastFinished.indexOf(false) != -1) {
+        if (touchesFinished.indexOf(false) == -1) break;
+        
+        // calculate old and new cursor
         let data = allCursorsMinDist();
-        if (data.dist == cursorMinDist(data.index1, false).dist && data.index2 != -1) {
+        
+        // check if the nearest cursor to the calculated old cursor position is the same as the calculated new cursor
+        if (data.dist == cursorMinDist(data.index1, false).dist) {
+            
+            // save that the cursor is finished
             touchesLastFinished[data.index1] = true;
             touchesFinished[data.index2] = true;
-            touchmove(data.index1, data.index2);
+            
+            // update Cursor instances
             for (let i = 0; i < Cursor.instances.length; i++) {
                 if (Cursor.instances[i].index == data.index1) {
                     Cursor.instances[i].indexNew = data.index2;
                 }
             }
+            
+            // call touchmove()
+            touchmove(data.index1, data.index2);
         } else {
+            // save that the cursor is finished
             touchesLastFinished[data.index1] = true;
+            
+            // call touchend()
             touchend(data.index1);
+            
+            // update Cursor instances
             for (let i = 0; i < Cursor.instances.length; i++) {
                 if (Cursor.instances[i].index == data.index1) {
                     // call the cursor's remove() function
@@ -131,15 +155,25 @@ function updateChangesInTouches() {
             }
         }
     }
+    // finish updating moved Cursor instances
     for (let i = 0; i < Cursor.instances.length; i++) {
         if (Cursor.instances[i].indexNew !== undefined) {
             Cursor.instances[i].index = Cursor.instances[i].indexNew;
             Cursor.instances[i].indexNew = undefined;
         }
     }
+    
+    // iterate through the new Cursors
     for (let index2 = 0; index2 < touches.length; index2++) {
         if (touchesFinished[index2]) continue;
+        
+        // save that the cursor is finished (actually not necessary)
+        touchesFinished[index2] = true;
+        
+        // call touchstart()
         touchstart(index2);
     }
+    
+    // update touchesLast
     touchesLast = JSON.copy(touches);
 };
