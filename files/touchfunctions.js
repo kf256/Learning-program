@@ -30,6 +30,7 @@ function touchstart(index) {
             controlCursor = new Cursor(index);
             controlCursor.remove = function() {
                 controlCursor = null;
+                console.log("removed");
             };
         }
     }
