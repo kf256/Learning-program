@@ -1,4 +1,4 @@
-let UTF8_bin = function() {
+function UTF8_bin() {
     ergebnis = "";
     for (let i = 0; i < 512; i++) {
         if (i < 2**7) {
@@ -15,7 +15,7 @@ let UTF8_bin = function() {
             ergebnis += ziffern.slice(5, 11);
         } else throw "i is too large";
     }
-};
+}
 let utf8 = ` !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿ`;
 async function loadImageURL(URL) {
     //create img element and load URL
@@ -78,7 +78,7 @@ class SimpleImage {
         }
     }
 }
-let getImagePixel = function(name, x, y) {
+function getImagePixel(name, x, y) {
     if (!images[name]) throw "image does not exist";
     x *= images[name].width;
     y *= images[name].height;
@@ -90,7 +90,7 @@ let getImagePixel = function(name, x, y) {
     y = Math.round(y);
     let index = x+images[name].width*y;
     return Boolean(images[name].data[Math.floor(index/32)] & (1<<(31-index%32)));
-};
+}
 let chilanka = null;
 async function loadFont() {
     let fontURL = "./files/Chilanka-Regular.otf";
