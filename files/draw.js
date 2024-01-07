@@ -211,26 +211,30 @@ function drawTask(z) {
     }
 }
 function drawControl() {
+    let controlX = 0.3-cw/cm;
+    let controlY = ch/cm-0.3;
+    let controlRadius = 0.2;
+    
     cb();
-    carc(0.3-cw/cm, ch/cm-0.3, 0.2);
+    carc(controlX, controlY, controlRadius);
     cfill("#fff8");
     cstrk(0.02, "#fff8");
     cstrk(0.01, "#fff");
     cc();
     
     if (controlCursor == null) return;
-    let x = 0.3-cw/cm;
-    let y = ch/cm-0.3;
-    let r = 0.2;
-    let dx = (touches[controlCursor.index].x-cw2-cm2*x)/cm2;
-    let dy = (touches[controlCursor.index].y-ch2-cm2*y)/cm2;
-    let d = Math.sqrt(dx**2+dy**2);
-    if (d > r) d = r;
-    let factor = 0.95**(r/d); // enable both precise control and fast movements
-    speed.x+= dx/r*3*factor;
-    speed.y+= dy/r*3*factor;
+    let dx = (touches[controlCursor.index].x-cw2)/cm2-controlX;
+    let dy = (touches[controlCursor.index].y-ch2)/cm2-controlY;
+    let dist = Math.hypot(dy, dx);
+    let angle = Math.atan2(dy, dx);
+    if (dist > controlRadius) dist = controlRadius;
+    let controlCircleX = Math.cos(angle)*dist;
+    let controlCircleY = Math.sin(angle)*dist;
+    let factor = 0.95**(controlRadius/dist); // enable both precise control and fast movements
+    speed.x+= dx/controlRadius*3*factor;
+    speed.y+= dy/controlRadius*3*factor;
     cb();
-    carc(x+dx/2, y+dy/2, r/2);
+    carc(controlX+dx/2, controlY+dy/2, controlRadius/2);
     cfill("#fff8");
     cstrk(0.02, "#fff8");
     cstrk(0.01, "#fff");
