@@ -131,7 +131,7 @@ function updateChangesInTouches() {
     };
     let allCursorsMinDist = () => {
         let result = {dist: Infinity, index1: -1, index2: -1};
-        for (let index1 = 0; index1 < cursorsLast.length; index1++) {
+        for (let index1 = 0; index1 < touchesLast.length; index1++) {
             let data = cursorMinDist(index1);
             if (data.dist <= result.dist) {
                 result.dist = data.dist;
