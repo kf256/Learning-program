@@ -54,12 +54,6 @@ function touchupdate(evt, type) {
         }
     }
     updateChangesInTouches();
-    let touchpos = isTouchDevice ? {x: evt.pageX, y: evt.pageY} : {x: evt.clientX, y: evt.clientY};
-    switch (type) {
-        case 0: touchstart(touchpos); break;
-        case 1: touchmove(touchpos);  break;
-        case 2: touchend(touchpos);   break;
-    }
 }
 class Cursor {
     constructor(index) {
