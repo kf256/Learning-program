@@ -11,7 +11,7 @@ if (!isTouchDevice) {
     canvas.addEventListener("touchend",    (evt) => {touchupdate(evt,2);});
     canvas.addEventListener("touchcancel", (evt) => {touchupdate(evt,2);});
 }
-function touchstart(touchpos) {
+function touchstart(index) {
     if (state == "not started") {
         enterFullscreen();
         state = "start";
@@ -23,40 +23,22 @@ function touchstart(touchpos) {
         let x = 0.3-cw/cm;
         let y = ch/cm-0.3;
         let r = 0.2;
-        let dx = (touchpos.x-cw2-cm2*x)/cm2;
-        let dy = (touchpos.y-ch2-cm2*y)/cm2;
+        let dx = (touches[index].x-cw2-cm2*x)/cm2;
+        let dy = (touches[index].y-ch2-cm2*y)/cm2;
         let d = Math.sqrt(dx**2+dy**2);
         if (d < r) {
-            controlCursor = new Cursor(touchpos.x, touchpos.y);
+            controlCursor = new Cursor(index);
             controlCursor.remove = function() {
                 controlCursor = null;
             };
         }
     }
 }
-function touchmove(touchpos) {
-    for (let i = 0; i < Cursor.instances.length; i++) {
-        Cursor.instances[i].update();
-    }
+function touchmove(indexOld, indexNew) {
+    // ...
 }
-function touchend(touchpos) {
-    touchmove(touchpos);
-    for (let i = 0; i < Cursor.instances.length; i++) {
-        //Cursor.instances[i].update();
-        if (Cursor.instances[i].x == touchpos.x && Cursor.instances[i].y == touchpos.y) {
-            
-            // call the cursor's remove() function
-            Cursor.instances[i].remove();
-            
-            // remove cursor form instances list
-            let instancesBefore = Cursor.instances.slice(0, i);
-            let instancesAfter = Cursor.instances.slice(i+1, Cursor.instances.length);
-            Cursor.instances = instancesBefore.concat(instancesAfter);
-            
-            // as the cursor, which was previously at index i+1, is now at index i, index i must be checked again
-            i--;
-        }
-    }
+function touchend(index) {
+    // ...
 }
 function touchupdate(evt, type) {
     if (isTouchDevice) {
@@ -80,28 +62,9 @@ function touchupdate(evt, type) {
     }
 }
 class Cursor {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    constructor(index) {
+        this.index = index;
         Cursor.instances.push(this);
-    }
-    update() {
-        let index = -1;
-        let indexDist = Infinity;
-        for (let i = 0; i < touches.length; i++) {
-            let distX = this.x-touches[i].x;
-            let distY = this.y-touches[i].y;
-            let dist = Math.hypot(distX, distY);
-            if (dist < indexDist) {
-                indexDist = dist;
-                index = i;
-            }
-        }
-        
-        if (index == -1) throw "Cursor does not exist";
-        
-        this.x = touches[index].x;
-        this.y = touches[index].y;
     }
     remove() {
         // code that is executed when the cursor disappears
@@ -149,15 +112,40 @@ function updateChangesInTouches() {
         if (data.dist == cursorMinDist(data.index1, false).dist && data.index2 != -1) {
             touchesLastFinished[data.index1] = true;
             touchesFinished[data.index2] = true;
-            console.log(`Cursor at previous index ${data.index1}, now index ${data.index2}, was moved ${Math.round(data.dist)} Pixels.`);
+            touchmove(data.index1, data.index2);
+            for (let i = 0; i < Cursor.instances.length; i++) {
+                if (Cursor.instances[i].index == data.index1) {
+                    Cursor.instances[i].indexNew = data.index2;
+                }
+            }
         } else {
             touchesLastFinished[data.index1] = true;
-            console.log(`Cursor at previous index ${data.index1} was removed.`);
+            touchend(data.index1);
+            for (let i = 0; i < Cursor.instances.length; i++) {
+                if (Cursor.instances[i].index == data.index1) {
+                    // call the cursor's remove() function
+                    Cursor.instances[i].remove();
+                    
+                    // remove cursor form instances list
+                    let instancesBefore = Cursor.instances.slice(0, i);
+                    let instancesAfter = Cursor.instances.slice(i+1, Cursor.instances.length);
+                    Cursor.instances = instancesBefore.concat(instancesAfter);
+                    
+                    // as the cursor, which was previously at index i+1, is now at index i, index i must be checked again
+                    i--;
+                }
+            }
+        }
+    }
+    for (let i = 0; i < Cursor.instances.length; i++) {
+        if (Cursor.instances[i].indexNew !== undefined) {
+            Cursor.instances[i].index = Cursor.instances[i].indexNew;
+            Cursor.instances[i].indexNew = undefined;
         }
     }
     for (let index2 = 0; index2 < touches.length; index2++) {
         if (touchesFinished[index2]) continue;
-        console.log(`Cursor at index ${index2} was added.`);
+        touchstart(index2);
     }
     touchesLast = JSON.copy(touches);
 };
