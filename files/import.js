@@ -1,44 +1,62 @@
-// is not used directly in the program, but is helpful to edit the variable utf8
-function UTF8_bin(digitsCount) {
-    result = "";
-    for (let i = 0; i < digitsCount; i++) {
-        if (i < 2**7) {
-            let digits = i.toString(2);
+function numbers2string(numbers) {
+    data = [];
+    for (let i = 0; i < numbers.length; i++) {
+        let number = numbers[i];
+        if (number > 126) number += 33;
+        number += 32;
+        let digits = number.toString(2);
+        let bytes = [];
+        if (number < 2**7) {
             while (digits.length < 7) digits = "0"+digits;
-            result += "0";
-            result += digits;
-        } else if (i < 2**11) {
-            let digits = i.toString(2);
+            bytes[0] = "0"+digits.slice(0, 7);
+        } else if (number < 2**11) {
             while (digits.length < 11) digits = "0"+digits;
-            result += "110";
-            result += digits.slice(0, 5);
-            result += "10";
-            result += digits.slice(5, 11);
-        } else if (i < 2**16) {
-            let digits = i.toString(2);
+            bytes[0] = "110"+digits.slice(0,  5);
+            bytes[1] = "10" +digits.slice(5, 11);
+        } else if (number < 2**16) {
             while (digits.length < 16) digits = "0"+digits;
-            result += "1110";
-            result += digits.slice(0, 4);
-            result += "10";
-            result += digits.slice(4, 10);
-            result += "10";
-            result += digits.slice(10, 16);
-        } else if (i < 2**20) {
-            let digits = i.toString(2);
+            bytes[0] = "1110"+digits.slice(0,   4);
+            bytes[1] = "10"  +digits.slice(4,  10);
+            bytes[2] = "10"  +digits.slice(10, 16);
+        } else if (number < 2**20) {
             while (digits.length < 21) digits = "0"+digits;
-            result += "11110";
-            result += digits.slice(0, 3);
-            result += "10";
-            result += digits.slice(3, 9);
-            result += "10";
-            result += digits.slice(9, 15);
-            result += "10";
-            result += digits.slice(15, 21);
+            bytes[0] = "11110"+digits.slice(0,   3);
+            bytes[1] = "10"   +digits.slice(3,   9);
+            bytes[2] = "10"   +digits.slice(9,  15);
+            bytes[3] = "10"   +digits.slice(15, 21);
         } else throw "digitsCount is too large";
+        data.push(bytes);
     }
-    return result;
+    data = [].concat(...data);
+    let array = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; i++) array[i] = parseInt(data[i], 2);
+    let characters = new TextDecoder().decode(array);
+    return characters;
 }
-let utf8 = ` !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿ`;
+function string2numbers(string) {
+    let array = new TextEncoder().encode(string);
+    let data = new Array(array.length);
+    for (let i = 0; i < array.length; i++) {
+		data[i] = array[i].toString(2);
+		while(data[i].length < 8) data[i] = "0"+data[i];
+    }
+    let numbers = [];
+    for (let i = 0; i < data.length; i++) {
+        let startBit = data[i].indexOf("0")+1;
+        let number = data[i].slice(startBit, 8);
+        if (data[i].slice(0, 2) == "10") {
+            numbers[numbers.length-1] <<= number.length;
+            numbers[numbers.length-1] += parseInt(number, 2);
+        } else {
+            numbers.push(parseInt(number, 2));
+        }
+    }
+    for (let i = 0; i < numbers.length; i++) {
+        numbers[i] -= 32;
+        if (numbers[i] > 126) numbers[i] -= 33;
+    }
+    return numbers;
+}
 async function loadImageURL(URL) {
     //create img element and load URL
     let img = document.createElement("img");
