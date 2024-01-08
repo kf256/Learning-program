@@ -1,3 +1,18 @@
+let t = 0;
+let drawnumber = 0;
+let framerate = null;
+let framerateint = Math.round(framerate);
+let nextframerateintupdate = Date.now();
+let pos = {x: 0, y: 0, z: 0};
+let poslast = JSON.copy(pos);
+let speed = {x: 0, y: 0, z: 0};
+let speedlast = JSON.copy(speed);
+let rot = {x: 0, y: 0, z: 0};
+let direction = {x: 0, y: 0, z: 0};
+let time = Date.now();
+let controlCursor = null;
+let controlSpeed = 2;
+
 function draw() {
     drawnumber++;
     

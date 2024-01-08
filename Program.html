@@ -43,22 +43,6 @@
             let cursorSize = 0.01;
             let cursorSpeed = 0.001;
             
-            // global variables of the draw functions
-            let t = 0;
-            let drawnumber = 0;
-            let framerate = null;
-            let framerateint = Math.round(framerate);
-            let nextframerateintupdate = Date.now();
-            let pos = {x: 0, y: 0, z: 0};
-            let poslast = null;
-            let speed = {x: 0, y: 0, z: 0};
-            let speedlast = null;
-            let rot = {x: 0, y: 0, z: 0};
-            let direction = {x: 0, y: 0, z: 0};
-            let time = Date.now();
-            let controlCursor = null;
-            let controlSpeed = 2;
-            
             function enterFullscreen() {
                 if      (canvas.requestFullscreen)       canvas.requestFullscreen();
                 else if (canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
@@ -182,10 +166,6 @@
                 images.earth = earthImage;
                 
                 await loadFont(); // load chilanka
-                
-                // define poslast and speedlast
-                poslast = JSON.copy(pos);
-                speedlast = JSON.copy(speed);
                 
                 draw(); // draw start screen
             }
