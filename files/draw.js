@@ -32,7 +32,7 @@ function draw() {
     t *= tasksSpeed;
     
     // save storage
-    localStorage["Learning program"] = JSON.stringify(storage);
+    localStorage["Learning program"] = numbers2string(string2numbers(JSON.stringify(storage)).map((x) => x*2));
     
     // clear the canvas
     cnew();

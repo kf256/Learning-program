@@ -28,9 +28,9 @@
             let state = "not started";
             let tasks = [];
             if (localStorage["Learning program"] == undefined) {
-                localStorage["Learning program"] = JSON.stringify({XP: 0});
+                localStorage["Learning program"] = numbers2string(string2numbers(JSON.stringify({XP: 0})).map((x) => x*2));
             }
-            let storage = JSON.parse(localStorage["Learning program"]);
+            let storage = JSON.parse(numbers2string(string2numbers(localStorage["Learning program"]).map((x) => x/2)));
             
             // settings
             let maxfps = 30;
