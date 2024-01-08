@@ -59,19 +59,19 @@
             let controlCursor = null;
             let controlSpeed = 2;
             
-            let enterFullscreen = function() {
+            function enterFullscreen() {
                 if      (canvas.requestFullscreen)       canvas.requestFullscreen();
                 else if (canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
                 else if (canvas.msRequestFullscreen)     canvas.msRequestFullscreen();
-            };
-            let exitFullscreen = function() {
+            }
+            function exitFullscreen() {
                 if      (document.exitFullscreen)       document.exitFullscreen();
                 else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
                 else if (document.msExitFullscreen)     document.msExitFullscreen();
-            };
+            }
             
             
-            let randNumber = function() {
+            function randNumber() {
                 let n = numbers;
                 let k = Object.keys(n);
                 let l = k.length;
@@ -81,14 +81,14 @@
                     if (Math.random() < n[k[i]].probability/p) return n[k[i]];
                     else p -= n[k[i]].probability;
                 }
-            };
-            let randNumberDigit = function(number) {
+            }
+            function randNumberDigit(number) {
                 let digits = number.digits.replace(".", "");
                 let maxdigit = number.maxdigit;
                 let digit = Math.randInt(maxdigit);
                 return digit;
-            };
-            let shownNumberDigits = function(number, digit) {
+            }
+            function shownNumberDigits(number, digit) {
                 let digits = number.digits.replace(".", "");
                 let pointpos = number.digits.indexOf(".");
                 let startDigit = Math.max(digit-shownDigitsNum, 0);
@@ -103,8 +103,8 @@
                 if (startDigit != 0) shownDigits = "..."+shownDigits;
                 shownDigits += "?...";
                 return {shownDigits: shownDigits, solution: digits[digit]};
-            };
-            let newTasks = function() {
+            }
+            function newTasks() {
                 tasks = new Array(taskNumber);
                 for (let i = 0; i < taskNumber; i++) {
                     let number = randNumber();
@@ -126,9 +126,9 @@
                     tasks[i] = {task: task, hint: hint, possibilities: possibilities, solution: solution};
                     continue;
                 }
-            };
+            }
             
-            let numbertotext = function(number, decimalPlaces = 0, system = 10) {
+            function numbertotext(number, decimalPlaces = 0, system = 10) {
                 let text = Math.floor(number).toString(system);
                 if (decimalPlaces == 0) return text;
                 text += ".";
@@ -136,13 +136,13 @@
                     text+= (Math.floor(system**i*number)%system).toString(system);
                 }
                 return text;
-            };
-            let isPositiveInteger = function(number) {
+            }
+            function isPositiveInteger(number) {
                 if (number%1 != 0) return false;
                 if (number <= 0) return false;
                 return true;
-            };
-            let ordinalNumbers = function(integer) {
+            }
+            function ordinalNumbers(integer) {
                 if (!isPositiveInteger(integer)) throw "The number isn't an integer!";
                 let lastDigit = integer%10;
                 if (lastDigit == 0 || lastDigit >= 4) return integer+"th";
@@ -153,7 +153,7 @@
                     case 2: return integer+"nd";
                     case 3: return integer+"rd";
                 }
-            };
+            }
             
             function loadScript(url) {
                 return new Promise(resolve => {
