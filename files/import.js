@@ -2,8 +2,8 @@ function numbers2string(numbers) {
     data = [];
     for (let i = 0; i < numbers.length; i++) {
         let number = numbers[i];
-        if (number > 126) number += 33;
         number += 32;
+        if (number > 126) number += 33;
         let digits = number.toString(2);
         let bytes = [];
         if (number < 2**7) {
@@ -52,8 +52,8 @@ function string2numbers(string) {
         }
     }
     for (let i = 0; i < numbers.length; i++) {
-        numbers[i] -= 32;
         if (numbers[i] > 126) numbers[i] -= 33;
+        numbers[i] -= 32;
     }
     return numbers;
 }
