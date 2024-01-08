@@ -1,20 +1,42 @@
-function UTF8_bin() {
-    ergebnis = "";
-    for (let i = 0; i < 512; i++) {
+// is not used directly in the program, but is helpful to edit the variable utf8
+function UTF8_bin(digitsCount) {
+    result = "";
+    for (let i = 0; i < digitsCount; i++) {
         if (i < 2**7) {
-            ergebnis += "0";
-            let ziffern = i.toString(2);
-            while (ziffern.length < 7) ziffern = "0"+ziffern;
-            ergebnis += ziffern;
+            let digits = i.toString(2);
+            while (digits.length < 7) digits = "0"+digits;
+            result += "0";
+            result += digits;
         } else if (i < 2**11) {
-            ergebnis += "110";
-            let ziffern = i.toString(2);
-            while (ziffern.length < 11) ziffern = "0"+ziffern;
-            ergebnis += ziffern.slice(0, 5);
-            ergebnis += "10";
-            ergebnis += ziffern.slice(5, 11);
-        } else throw "i is too large";
+            let digits = i.toString(2);
+            while (digits.length < 11) digits = "0"+digits;
+            result += "110";
+            result += digits.slice(0, 5);
+            result += "10";
+            result += digits.slice(5, 11);
+        } else if (i < 2**16) {
+            let digits = i.toString(2);
+            while (digits.length < 16) digits = "0"+digits;
+            result += "1110";
+            result += digits.slice(0, 4);
+            result += "10";
+            result += digits.slice(4, 10);
+            result += "10";
+            result += digits.slice(10, 16);
+        } else if (i < 2**20) {
+            let digits = i.toString(2);
+            while (digits.length < 21) digits = "0"+digits;
+            result += "11110";
+            result += digits.slice(0, 3);
+            result += "10";
+            result += digits.slice(3, 9);
+            result += "10";
+            result += digits.slice(9, 15);
+            result += "10";
+            result += digits.slice(15, 21);
+        } else throw "digitsCount is too large";
     }
+    return result;
 }
 let utf8 = ` !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿ`;
 async function loadImageURL(URL) {
