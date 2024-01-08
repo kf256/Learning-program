@@ -1,4 +1,4 @@
-let commands = function(text, x = 0, y = 0, size = 0.1, font = chilanka) {
+function commands(text, x = 0, y = 0, size = 0.1, font = chilanka) {
     
     // get the commands from opentype.js
     let cmd = font.getPath(text, 0, 0, size).commands;
@@ -91,4 +91,4 @@ let commands = function(text, x = 0, y = 0, size = 0.1, font = chilanka) {
     
     // return commands
     return cmd;
-};
+}
