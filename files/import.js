@@ -57,6 +57,10 @@ function string2numbers(string) {
     }
     return numbers;
 }
+if (localStorage["Learning program"] == undefined) {
+    localStorage["Learning program"] = numbers2string(string2numbers(JSON.stringify({XP: 0})).map((x) => x*2));
+}
+let storage = JSON.parse(numbers2string(string2numbers(localStorage["Learning program"]).map((x) => x/2)));
 async function loadImageURL(URL) {
     //create img element and load URL
     let img = document.createElement("img");
