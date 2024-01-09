@@ -100,7 +100,7 @@ function draw() {
     waitTime = Math.max(waitTime, 0);
     waitTime = Math.round(waitTime);
     setTimeout(draw, waitTime);
-};
+}
 function drawUpdatePosition() {
     // move forward
     speed.z = 2;
@@ -130,7 +130,7 @@ function drawUpdatePosition() {
     
     // reset speed
     speed = {x: 0, y: 0, z: 0};
-};
+}
 function checkIfTaskCompleted(z) {
     let task = tasks[z-1];
     if (xyzloc.z-4 > poslast.z && xyzloc.z-4 < pos.z) {
@@ -284,7 +284,7 @@ function drawControl() {
     cstrk(0.02, "#fff8");
     cstrk(0.01, "#fff");
     cc();
-};
+}
 function drawPercent() {
     xyzloc.z = (tasks.length+1)*taskDist;
     let viewDist = xyzrtt({x:0,y:0,z:0}).z;
@@ -296,7 +296,7 @@ function drawPercent() {
     cstrk(0.10/viewDist, crgba(0.5, 0.5, 0.5, alpha));
     cfill(crgba(1, 1, 1, alpha));
     cc();
-};
+}
 function drawPaperPlane() {
     xyzloc.x = pos.x;
     xyzloc.y = pos.y;
@@ -343,4 +343,4 @@ function drawPaperPlane() {
         f12();
     }
     xyzreset();
-};
+}

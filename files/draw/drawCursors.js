@@ -3,7 +3,7 @@ function drawCursor() {
         case 0: drawStarCursors();  break;
         case 1: drawEarthCursors(); break;
     }
-};
+}
 function drawStarCursors() {
     for (let i = 0; i < touches.length; i++) {
         cb();
@@ -19,7 +19,7 @@ function drawStarCursors() {
         cstrk(cursorSize, "#000");
         cc();
     }
-};
+}
 function drawEarthCursors() {
     for (let i = 0; i < touches.length; i++) {
         let s = Math.round(cm*cursorSize*3);
@@ -49,4 +49,4 @@ function drawEarthCursors() {
         }
         ctx.putImageData(imageData, touches[i].x-s, touches[i].y-s);
     }
-};
+}
