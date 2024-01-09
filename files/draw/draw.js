@@ -16,20 +16,7 @@ let controlSpeed = 2;
 function draw() {
     drawnumber++;
     
-    // calculate delay and update framerate variables
-    t = Date.now()-time;
-    time += t;
-    t /= 1000; // convert to seconds
-    if (framerate == Infinity) framerate = 1/t;
-    else if (drawnumber < 10) framerate = 1/t;
-    else framerate = framerate*0.98+1/t*0.02;
-    if ((nextframerateintupdate < Date.now()) && (framerateint != Math.round(framerate))) {
-        framerateint = Math.round(framerate);
-        nextframerateintupdate = Date.now()+500; // refresh in half a second at the earliest
-    }
-    
-    // make everything faster or slower
-    t *= tasksSpeed;
+    updateTime();
     
     // save storage
     localStorage["Learning program"] = numbers2string(string2numbers(JSON.stringify(storage)).map((x) => x*2));
@@ -40,17 +27,8 @@ function draw() {
     // set linetype of canvas to "round"
     clinetype(true);
     
-    if (state == "not started") { // start sqare
-        cb();
-        crect(-0.9, -0.9, 1.8, 1.8);
-        cfill(chsl(Date.now()/10000%1));
-        cc();
-        cb();
-        ctext(commands("Start!", 0, 0, 0.4));
-        cstrk(0.015, "#000");
-        cfill("#fff");
-        cstrk(0.005);
-        cc();
+    if (state == "not started") {
+        drawStartSquare();
     } else if (state == "start") {
         cb();
         crect(-0.9, -0.9, 1.8, 1.8);
@@ -83,14 +61,7 @@ function draw() {
         drawPaperPlane();
     }
     
-    // draw frame rate
-    cb();
-    let fpstext = numbertotext(framerateint)+" fps";
-    if (cw > ch) ctext(commands(fpstext, -cw/ch+0.20, -1+0.14, 0.05));
-    else ctext(commands(fpstext, -1+0.20, -ch/cw+0.14, 0.05));
-    cstrk(0.01, "#0008");
-    cfill("#fff");
-    cc();
+    drawFrameRate();
     
     drawCursor();
     
@@ -100,6 +71,45 @@ function draw() {
     waitTime = Math.max(waitTime, 0);
     waitTime = Math.round(waitTime);
     setTimeout(draw, waitTime);
+}
+function updateTime() {
+    // calculate delay
+    t = Date.now()-time;
+    time += t;
+    t /= 1000; // convert to seconds
+    
+    // update framerate variables
+    if (framerate == Infinity) framerate = 1/t;
+    else if (drawnumber < 10) framerate = 1/t;
+    else framerate = framerate*0.98+1/t*0.02;
+    if ((nextframerateintupdate <= Date.now()) && (framerateint != Math.round(framerate))) {
+        framerateint = Math.round(framerate);
+        nextframerateintupdate = Date.now()+500; // refresh in half a second at the earliest
+    }
+    
+    // make everything faster or slower
+    t *= tasksSpeed;
+}
+function drawFrameRate() {
+    cb();
+    let fpstext = numbertotext(framerateint)+" fps";
+    if (cw > ch) ctext(commands(fpstext, -cw/ch+0.20, -1+0.14, 0.05));
+    else ctext(commands(fpstext, -1+0.20, -ch/cw+0.14, 0.05));
+    cstrk(0.01, "#0008");
+    cfill("#fff");
+    cc();
+}
+function drawStartSquare() {
+    cb();
+    crect(-0.9, -0.9, 1.8, 1.8);
+    cfill(chsl(Date.now()/10000%1));
+    cc();
+    cb();
+    ctext(commands("Start!", 0, 0, 0.4));
+    cstrk(0.015, "#000");
+    cfill("#fff");
+    cstrk(0.005);
+    cc();
 }
 function drawUpdatePosition() {
     // move forward
