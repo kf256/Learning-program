@@ -19,7 +19,7 @@ function draw() {
     // calculate delay and update framerate variables
     t = Date.now()-time;
     time += t;
-    t /= 1000; // convert to seconts
+    t /= 1000; // convert to seconds
     if (framerate == Infinity) framerate = 1/t;
     else if (drawnumber < 10) framerate = 1/t;
     else framerate = framerate*0.98+1/t*0.02;
