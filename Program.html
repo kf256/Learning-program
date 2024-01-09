@@ -152,7 +152,8 @@
                 await loadScript(`./files/import.js?${Math.random().toString(36)}`); // functions to import other files
                 await loadScript(`./files/canvas.js?${Math.random().toString(36)}`); // functions that help drawing on the canvas
                 await loadScript(`./files/xyz.js?${Math.random().toString(36)}`); // functions that help drawing 3D
-                await loadScript(`./files/draw.js?${Math.random().toString(36)}`); // draw() function and functions drawing parts of the user interface
+                await loadScript(`./files/draw/draw.js?${Math.random().toString(36)}`); // draw() function and functions drawing parts of the user interface
+                await loadScript(`./files/draw/drawCursors.js?${Math.random().toString(36)}`); // functions drawing the cursors
                 await loadScript(`./files/numbers.js?${Math.random().toString(36)}`); // JavaScript file containing numbers that can be learned
                 await loadScript(`./files/touchfunctions.js?${Math.random().toString(36)}`); // functions for both devives using a mouse and touch devices
                 
