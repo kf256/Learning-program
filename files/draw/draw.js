@@ -313,10 +313,14 @@ function drawPaperPlane() {
     xyzloc.z = pos.z+1;
     xyzrot.x = -direction.y/10;
     xyzrot.y = -direction.x/10;
-    let p1 = [{x: .01,y:0,z:0},{x: .06,y:0,z:0},{x:0,y:0,z:.5}];
-    let p2 = [{x:-.01,y:0,z:0},{x:-.06,y:0,z:0},{x:0,y:0,z:.5}];
-    let p3 = [{x: .01,y:0,z:0},{x:0,y:0.03,z:0},{x:0,y:0,z:.5}];
-    let p4 = [{x:-.01,y:0,z:0},{x:0,y:0.03,z:0},{x:0,y:0,z:.5}];
+    
+    // triangle faces
+    let p1 = [{x: .01, y:0, z:0}, {x: .06, y:0,    z:0}, {x:0, y:0, z:0.5}];
+    let p2 = [{x:-.01, y:0, z:0}, {x:-.06, y:0,    z:0}, {x:0, y:0, z:0.5}];
+    let p3 = [{x: .01, y:0, z:0}, {x:  0,  y:0.03, z:0}, {x:0, y:0, z:0.5}];
+    let p4 = [{x:-.01, y:0, z:0}, {x:  0,  y:0.03, z:0}, {x:0, y:0, z:0.5}];
+    
+    // functions drawing the triangles
     let f12 = function() {
         cb();
         xyzpolygon(p1);
@@ -339,6 +343,8 @@ function drawPaperPlane() {
         cstrk(0.01, "#111");
         cc();
     };
+    
+    // draw the triangles in the correct order
     if (xyzrot.x < 0) {
         f12();
     }
@@ -352,5 +358,7 @@ function drawPaperPlane() {
     if (xyzrot.x >= 0) {
         f12();
     }
+    
+    
     xyzreset();
 }
