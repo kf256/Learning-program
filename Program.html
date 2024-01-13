@@ -9,7 +9,7 @@
         <style>
             body {
                 background-color: black;
-                overscroll-behavior: contain;
+                overscroll-behavior-y: contain;
                 touch-action: none;
             }
             #canvas {
@@ -40,6 +40,7 @@
             let cursorType = 1;
             let cursorSize = 0.01;
             let cursorSpeed = 0.001;
+            
             
             function enterFullscreen() {
                 if      (canvas.requestFullscreen)       canvas.requestFullscreen();
