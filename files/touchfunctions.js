@@ -150,7 +150,7 @@ function updateChangesInTouches() {
                     // call the cursor's remove() function
                     Cursor.instances[i].remove();
                     
-                    // remove cursor form instances list
+                    // remove cursor from instances list
                     let instancesBefore = Cursor.instances.slice(0, i);
                     let instancesAfter = Cursor.instances.slice(i+1, Cursor.instances.length);
                     Cursor.instances = instancesBefore.concat(instancesAfter);
