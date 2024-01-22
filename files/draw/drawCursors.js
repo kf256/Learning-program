@@ -44,17 +44,34 @@ class PaintedCursor extends Cursor {
     constructor(index) {
         super(index);
         PaintedCursor.instances.push(this);
+        this.status = "appearing";
+        this.size = 0;
+        this.lastUpdate = Date.now();
     }
     remove() {
-        // remove cursor from instances list
-        let instancesBefore = PaintedCursor.instances.slice(0, this.index);
-        let instancesAfter = PaintedCursor.instances.slice(this.index+1, PaintedCursor.instances.length);
-        PaintedCursor.instances = instancesBefore.concat(instancesAfter);
+        this.status = "disappearing";
     }
     draw() {
+        if (this.status == "appearing") {
+            this.size += (Date.now()-this.lastUpdate)/1000;
+            if (this.size > 1) {
+                this.size = 1;
+                this.status = "visible";
+            }
+        } else if (this.status == "disappearing") {
+            this.size -= (Date.now()-this.lastUpdate)/1000;
+            if (this.size < 0) {
+                // remove cursor from instances list
+                let instancesBefore = PaintedCursor.instances.slice(0, this.index);
+                let instancesAfter = PaintedCursor.instances.slice(this.index+1, PaintedCursor.instances.length);
+                PaintedCursor.instances = instancesBefore.concat(instancesAfter);
+                return;
+            }
+        }
+        this.lastUpdate = Date.now();
         switch (cursorType) {
-            case 0: drawStarCursor(cursor);  break;
-            case 1: drawEarthCursor(cursor); break;
+            case 0: drawStarCursor(this);  break;
+            case 1: drawEarthCursor(this); break;
         }
     }
     
