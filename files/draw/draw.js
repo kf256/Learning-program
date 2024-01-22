@@ -63,7 +63,6 @@ function draw() {
     
     drawFrameRate();
     
-    drawCursor();
     PaintedCursor.draw();
     
     let calculateTime = (Date.now()-time)/1000;
