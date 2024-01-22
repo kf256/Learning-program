@@ -50,3 +50,26 @@ function drawEarthCursors() {
         ctx.putImageData(imageData, touches[i].x-s, touches[i].y-s);
     }
 }
+class PaintedCursor extends Cursor {
+    constructor(index) {
+        super(index);
+        PaintedCursor.instances.push(this);
+    }
+    remove() {
+        // remove cursor from instances list
+        let instancesBefore = PaintedCursor.instances.slice(0, this.index);
+        let instancesAfter = PaintedCursor.instances.slice(this.index+1, PaintedCursor.instances.length);
+        PaintedCursor.instances = instancesBefore.concat(instancesAfter);
+    }
+    draw() {
+        cb();
+        ctx.arc(this.x, this.y, cm/10, 0, Math.PI*2);
+        cfill();
+        cc();
+    }
+    
+    static instances = [];
+    static draw() {
+        for (let i = 0; i < PaintedCursor.instances.length; i++) PaintedCursor.instances[i].draw();
+    }
+}
