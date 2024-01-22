@@ -50,6 +50,8 @@ class PaintedCursor extends Cursor {
     }
     remove() {
         this.status = "disappearing";
+        Object.defineProperty(test, "x", {value: this.x});
+        Object.defineProperty(test, "y", {value: this.y});
     }
     draw() {
         if (this.status == "appearing") {
