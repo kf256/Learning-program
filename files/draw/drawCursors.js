@@ -1,7 +1,7 @@
 function drawCursor(cursor) {
     switch (cursorType) {
-        case 0: drawStarCursors(cursor);  break;
-        case 1: drawEarthCursors(cursor); break;
+        case 0: drawStarCursor(cursor);  break;
+        case 1: drawEarthCursor(cursor); break;
     }
 }
 function drawStarCursor(cursor) {
