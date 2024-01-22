@@ -43,7 +43,9 @@ class PaintedCursor extends Cursor {
 }
 function drawSimpleCursor(cursor) {
     cb();
-    ctx.arc(cursor.x, cursor.y, cm*cursorSize*cursor.size*2, Date.now()/2000, Math.PI+Date.now()/2000);
+    let a = Date.now()/2000;
+    a %= Math.PI*2;
+    ctx.arc(cursor.x, cursor.y, cm*cursorSize*cursor.size*2, a, Math.PI*1.9+a);
     cstrk(cursorSize, "#8888");
     cc();
 }
