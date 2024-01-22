@@ -1,3 +1,52 @@
+class PaintedCursor extends Cursor {
+    constructor(index) {
+        super(index);
+        PaintedCursor.instances.push(this);
+        this.status = "appearing";
+        this.size = 0;
+        this.lastUpdate = Date.now();
+    }
+    remove() {
+        this.status = "disappearing";
+        Object.defineProperty(this, "x", {value: touchesLast[this.index].x});
+        Object.defineProperty(this, "y", {value: touchesLast[this.index].y});
+    }
+    draw() {
+        if (this.status == "appearing") {
+            this.size += (Date.now()-this.lastUpdate)/200;
+            if (this.size > 1) {
+                this.size = 1;
+                this.status = "visible";
+            }
+        } else if (this.status == "disappearing") {
+            this.size -= (Date.now()-this.lastUpdate)/200;
+            if (this.size < 0) {
+                // remove cursor from instances list
+                let instancesBefore = PaintedCursor.instances.slice(0, this.index);
+                let instancesAfter = PaintedCursor.instances.slice(this.index+1, PaintedCursor.instances.length);
+                PaintedCursor.instances = instancesBefore.concat(instancesAfter);
+                return;
+            }
+        }
+        this.lastUpdate = Date.now();
+        switch (cursorType) {
+            case 0: drawSimpleCursor(this);break;
+            case 1: drawStarCursor(this);  break;
+            case 2: drawEarthCursor(this); break;
+        }
+    }
+    
+    static instances = [];
+    static draw() {
+        for (let i = 0; i < PaintedCursor.instances.length; i++) PaintedCursor.instances[i].draw();
+    }
+}
+function drawSimpleCursor(cursor) {
+    cb();
+    ctx.arc(cursor.x, cursor.y, cm*cursorSize*cursor.size*2, 0, Math.PI);
+    cstrk(cursorSize/2, "#8888");
+    cc();
+}
 function drawStarCursor(cursor) {
     cb();
     for (let j = 0; j <= 10; j++) {
@@ -40,46 +89,4 @@ function drawEarthCursor(cursor) {
         }
     }
     ctx.putImageData(imageData, cursor.x-s, cursor.y-s);
-}
-class PaintedCursor extends Cursor {
-    constructor(index) {
-        super(index);
-        PaintedCursor.instances.push(this);
-        this.status = "appearing";
-        this.size = 0;
-        this.lastUpdate = Date.now();
-    }
-    remove() {
-        this.status = "disappearing";
-        Object.defineProperty(this, "x", {value: touchesLast[this.index].x});
-        Object.defineProperty(this, "y", {value: touchesLast[this.index].y});
-    }
-    draw() {
-        if (this.status == "appearing") {
-            this.size += (Date.now()-this.lastUpdate)/200;
-            if (this.size > 1) {
-                this.size = 1;
-                this.status = "visible";
-            }
-        } else if (this.status == "disappearing") {
-            this.size -= (Date.now()-this.lastUpdate)/200;
-            if (this.size < 0) {
-                // remove cursor from instances list
-                let instancesBefore = PaintedCursor.instances.slice(0, this.index);
-                let instancesAfter = PaintedCursor.instances.slice(this.index+1, PaintedCursor.instances.length);
-                PaintedCursor.instances = instancesBefore.concat(instancesAfter);
-                return;
-            }
-        }
-        this.lastUpdate = Date.now();
-        switch (cursorType) {
-            case 0: drawStarCursor(this);  break;
-            case 1: drawEarthCursor(this); break;
-        }
-    }
-    
-    static instances = [];
-    static draw() {
-        for (let i = 0; i < PaintedCursor.instances.length; i++) PaintedCursor.instances[i].draw();
-    }
 }
