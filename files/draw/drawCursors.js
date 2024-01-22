@@ -56,13 +56,13 @@ class PaintedCursor extends Cursor {
     }
     draw() {
         if (this.status == "appearing") {
-            this.size += (Date.now()-this.lastUpdate)/1000;
+            this.size += (Date.now()-this.lastUpdate)/200;
             if (this.size > 1) {
                 this.size = 1;
                 this.status = "visible";
             }
         } else if (this.status == "disappearing") {
-            this.size -= (Date.now()-this.lastUpdate)/1000;
+            this.size -= (Date.now()-this.lastUpdate)/200;
             if (this.size < 0) {
                 // remove cursor from instances list
                 let instancesBefore = PaintedCursor.instances.slice(0, this.index);
