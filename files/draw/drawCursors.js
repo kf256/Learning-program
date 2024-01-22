@@ -1,9 +1,3 @@
-function drawCursor(cursor) {
-    switch (cursorType) {
-        case 0: drawStarCursor(cursor);  break;
-        case 1: drawEarthCursor(cursor); break;
-    }
-}
 function drawStarCursor(cursor) {
     cb();
     for (let j = 0; j <= 10; j++) {
@@ -58,7 +52,10 @@ class PaintedCursor extends Cursor {
         PaintedCursor.instances = instancesBefore.concat(instancesAfter);
     }
     draw() {
-        drawCursor(this);
+        switch (cursorType) {
+            case 0: drawStarCursor(cursor);  break;
+            case 1: drawEarthCursor(cursor); break;
+        }
     }
     
     static instances = [];
