@@ -2,7 +2,7 @@ function drawStarCursor(cursor) {
     cb();
     for (let j = 0; j <= 10; j++) {
         let a = j/10*Math.PI*2+Date.now()*cursorSpeed;
-        let r = (j%2+0.8)*cm*cursorSize*2;
+        let r = (j%2+0.8)*cm*cursorSize*cursor.size*2;
         let x = Math.cos(a)*r+cursor.x;
         let y = Math.sin(a)*r+cursor.y;
         if (j == 0) ctx.moveTo(x, y);
@@ -13,7 +13,7 @@ function drawStarCursor(cursor) {
     cc();
 }
 function drawEarthCursor(cursor) {
-    let s = Math.round(cm*cursorSize*3);
+    let s = Math.round(cm*cursorSize*cursor.size*3);
     let imageData = ctx.getImageData(cursor.x-s, cursor.y-s, 2*s, 2*s);
     for (let y = -s; y < s; y++) {
         let width = Math.sqrt(s**2-y**2);
