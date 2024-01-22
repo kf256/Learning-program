@@ -14,6 +14,7 @@ function drawStarCursor(cursor) {
 }
 function drawEarthCursor(cursor) {
     let s = Math.round(cm*cursorSize*cursor.size*3);
+    if (s == 0) return;
     let imageData = ctx.getImageData(cursor.x-s, cursor.y-s, 2*s, 2*s);
     for (let y = -s; y < s; y++) {
         let width = Math.sqrt(s**2-y**2);
