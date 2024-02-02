@@ -296,10 +296,12 @@ storage.read = function() {
         number += BigInt(numbers[i]);
     }
     let bin = number.toString(2).slice(1);
+    console.log(bin);
     storage.storage = storage.binToValue(bin).result;
 }
 storage.write = function() {
     let bin = "1"+storage.valueToBin(storage.storage);
+    console.log(bin);
     let number = 0n;
     for (let i = 0; i < bin.length; i++) {
         number <<= 1n;
