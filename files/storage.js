@@ -315,6 +315,7 @@ storage.write = function() {
 try {
     storage.read();
 } catch {
+    console.log("reset storage");
     storage.storage = {};
     storage.write();
 } finally {
