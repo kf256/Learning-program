@@ -19,7 +19,7 @@ function draw() {
     updateTime();
     
     // save storage
-    localStorage["Learning program"] = numbers2string(string2numbers(JSON.stringify(storage)).map((x) => x*2));
+    storage.write();
     
     // clear the canvas
     cnew();
@@ -161,7 +161,7 @@ function checkIfTaskCompleted(z) {
                 `Great! ${(tasks[z-1].solution)} is right!`
             ];
             console.log(answers.random());
-            storage.XP++;
+            storage.storage.XP++;
         } else {
             let answers = [
                 `${tasks[z-1].possibilities[i]} is incorrect. The correct solution would have been ${tasks[z-1].solution}.`,
