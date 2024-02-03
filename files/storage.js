@@ -316,7 +316,7 @@ storage.write = function() {
 try {
     storage.read();
 } catch (err) {
-    console.log("reset storage", err);
+    console.log("reset storage\nError: "+err+"\n"+localStorage["Learning program"]);
     storage.storage = {};
     storage.write();
 } finally {
