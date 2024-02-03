@@ -23,28 +23,49 @@ function xyzperspective(point) {
     point.y = Math.atan2(point.y, point.z/perspectiveFactor)*perspectiveFactor;
 }
 function xyzrotatex(point, angle) {
-    let cos = Math.cos(angle);
-    let sin = Math.sin(angle);
-    let yNew = point.y*cos-point.z*sin;
-    let zNew = point.y*sin+point.z*cos;
-    point.y = yNew;
-    point.z = zNew;
+    if (Math.abs(angle%(Math.PI*2)) < 0.1) {
+        let yNew = point.y-point.z*angle;
+        let zNew = point.y*angle+point.z;
+        point.y = yNew;
+        point.z = zNew;
+    } else {
+        let cos = Math.cos(angle);
+        let sin = Math.sin(angle);
+        let yNew = point.y*cos-point.z*sin;
+        let zNew = point.y*sin+point.z*cos;
+        point.y = yNew;
+        point.z = zNew;
+    }
 }
 function xyzrotatey(point, angle) {
-    let cos = Math.cos(angle);
-    let sin = Math.sin(angle);
-    let zNew = point.z*cos-point.x*sin;
-    let xNew = point.z*sin+point.x*cos;
-    point.z = zNew;
-    point.x = xNew;
+    if (Math.abs(angle%(Math.PI*2)) < 0.1) {
+        let zNew = point.z-point.x*angle;
+        let xNew = point.z*angle+point.x;
+        point.z = zNew;
+        point.x = xNew;
+    } else {
+        let cos = Math.cos(angle);
+        let sin = Math.sin(angle);
+        let zNew = point.z*cos-point.x*sin;
+        let xNew = point.z*sin+point.x*cos;
+        point.z = zNew;
+        point.x = xNew;
+    }
 }
 function xyzrotatez(point, angle) {
-    let cos = Math.cos(angle);
-    let sin = Math.sin(angle);
-    let xNew = point.x*cos-point.y*sin;
-    let yNew = point.x*sin+point.y*cos;
-    point.x = xNew;
-    point.y = yNew;
+    if (Math.abs(angle%(Math.PI*2)) < 0.1) {
+        let xNew = point.x-point.y*angle;
+        let yNew = point.x*angle+point.y;
+        point.x = xNew;
+        point.y = yNew;
+    } else {
+        let cos = Math.cos(angle);
+        let sin = Math.sin(angle);
+        let xNew = point.x*cos-point.y*sin;
+        let yNew = point.x*sin+point.y*cos;
+        point.x = xNew;
+        point.y = yNew;
+    }
 }
 function xyzrotatezxy(point) {
     xyzrotatez(point, xyzrot.z);
