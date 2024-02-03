@@ -181,7 +181,7 @@
                     let y = canvas.height/2-h/2;
                     ctx.strokeStyle = ctx.fillStyle = "white";
                     ctx.strokeRect(x, y, w, h);
-                    ctx.fillRect(x, y, w*i/scriptSources.length, h);
+                    ctx.fillRect(x, y, w*loadingProgressShown, h);
                     if (loadingProgressShown < 1) window.requestAnimationFrame(() => drawLoadingProgress(resolve, time));
                     else resolve();
                 }
