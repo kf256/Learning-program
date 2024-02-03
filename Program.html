@@ -207,7 +207,7 @@
                 // load the scripts
                 for (let i = 0; i < scriptSources.length; i++) {
                     // update loading progress
-                    progress = i/scriptSources.length;
+                    loadingProgress = i/scriptSources.length;
                     
                     let src = scriptSources[i];
                     // if the branch is devel, the scripts are reloaded, even if the browser has them in the cache
@@ -224,9 +224,9 @@
                 
                 await loadFont(); // load chilanka
                 
-                progress = 1;
-                finished = true;
-                await drawLoadingProgressPromise();
+                loadingProgress = 1;
+                loadingFinished = true;
+                await drawLoadingProgressPromise;
                 
                 draw(); // draw start screen
             }
