@@ -308,7 +308,7 @@ storage.write = function() {
     }
     let numbers = [];
     while (number != 0n) {
-        numbers.push(Number(number%1046463n));
+        numbers.pop(Number(number%1046463n));
         number /= 1046463n;
     }
     localStorage["Learning program"] = storage.numbers2string(numbers);
