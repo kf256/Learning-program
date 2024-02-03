@@ -25,26 +25,26 @@ function xyztransform(point) {
 function xyzrotatex(point, angle) {
     let cos = Math.cos(angle);
     let sin = Math.sin(angle);
-    let pointOld = point;
-    point.x = pointOld.x;
-    point.y = pointOld.y*cos-pointOld.z*sin;
-    point.z = pointOld.y*sin+pointOld.z*cos;
+    let yNew = point.y*cos-point.z*sin;
+    let zNew = point.y*sin+point.z*cos;
+    point.y = yNew;
+    point.z = zNew;
 }
 function xyzrotatey(point, angle) {
     let cos = Math.cos(angle);
     let sin = Math.sin(angle);
-    let pointOld = point;
-    point.y = pointOld.y;
-    point.x = pointOld.x*cos-pointOld.z*sin;
-    point.z = pointOld.x*sin+pointOld.z*cos;
+    let zNew = point.z*cos-point.x*sin;
+    let xNew = point.z*sin+point.x*cos;
+    point.z = zNew;
+    point.x = xNew;
 }
 function xyzrotatez(point, angle) {
     let cos = Math.cos(angle);
     let sin = Math.sin(angle);
-    let pointOld = point;
-    point.z = pointOld.z;
-    point.y = pointOld.y*cos-pointOld.x*sin;
-    point.x = pointOld.y*sin+pointOld.x*cos;
+    let xNew = point.x*cos-point.y*sin;
+    let yNew = point.x*sin+point.y*cos;
+    point.x = xNew;
+    point.y = yNew;
 }
 function xyzrotatezxy(point) {
     xyzrotatez(point, xyzrot.z);
