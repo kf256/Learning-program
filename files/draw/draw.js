@@ -302,7 +302,7 @@ function drawPercent() {
     let alpha = viewDist/3-0.2;
     let accuracy = taskNumber/tasks.length;
     cb();
-    xyztext(commands(Math.floor(accuracy*100)+"% was correct", 0, 0, 0.2));
+    xyztext(commands(Math.round(accuracy*100)+"% were correct", 0, 0, 0.2));
     cstrk(0.20/viewDist, crgba(0, 0, 0, alpha));
     cstrk(0.10/viewDist, crgba(0.5, 0.5, 0.5, alpha));
     cfill(crgba(1, 1, 1, alpha));
