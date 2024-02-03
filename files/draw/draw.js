@@ -311,8 +311,8 @@ function drawPaperPlane() {
     xyzloc.x = pos.x;
     xyzloc.y = pos.y;
     xyzloc.z = pos.z+1;
-    xyzrot.x = direction.y/10;
-    xyzrot.y = -direction.x/10;
+    xyzrot.x = -direction.y/10;
+    xyzrot.y = direction.x/10;
     
     // triangle faces
     let p1 = [{x: .01, y:0, z:0}, {x: .06, y:0,    z:0}, {x:0, y:0, z:0.5}];
