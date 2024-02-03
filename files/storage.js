@@ -296,7 +296,6 @@ storage.read = function() {
         number += BigInt(numbers[i]);
     }
     let bin = number.toString(2).slice(1);
-    console.log(bin);
     storage.storage = storage.binToValue(bin).result;
 }
 storage.write = function() {
@@ -316,7 +315,6 @@ storage.write = function() {
 try {
     storage.read();
 } catch (err) {
-    console.log("reset storage\nError: "+err+"\n"+localStorage["Learning program"]);
     storage.storage = {};
     storage.write();
 } finally {
