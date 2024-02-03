@@ -171,6 +171,9 @@
                     let delay = Date.now()-time;
                     time += delay;
                     delay /= 1000;
+                    console.log("delay: "+delay);
+                    console.log("progress: "+loadingProgress);
+                    console.log("shown progress: "+loadingProgressShown);
                     if (!loadingFinished) loadingProgressShown += (loadingProgress-loadingProgressShown)*delay;
                     else loadingProgressShown += delay;
                     canvas.width = window.innerWidth;
