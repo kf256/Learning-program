@@ -167,12 +167,12 @@
                 let loadingProgress = 0;
                 let loadingProgressShown = 0;
                 let loadingFinished = false;
-                function drawLoadingProgress(resolve, time = Date.now()) {
+                function drawLoadingProgress(resolve, start = Date.now(), time = Date.now()) {
                     let delay = Date.now()-time;
                     time += delay;
                     delay /= 1000;
                     if (!loadingFinished) loadingProgressShown += (loadingProgress-loadingProgressShown)*delay;
-                    else loadingProgressShown += delay;
+                    else loadingProgressShown += delay/(Date.now()-start)*1000;
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
                     let w = 200;
@@ -182,7 +182,7 @@
                     ctx.strokeStyle = ctx.fillStyle = "white";
                     ctx.strokeRect(x, y, w, h);
                     ctx.fillRect(x, y, w*loadingProgressShown, h);
-                    if (loadingProgressShown < 1) window.requestAnimationFrame(() => drawLoadingProgress(resolve, time));
+                    if (loadingProgressShown < 1) window.requestAnimationFrame(() => drawLoadingProgress(resolve, start, time));
                     else resolve();
                 }
                 let drawLoadingProgressPromise = new Promise(resolve => drawLoadingProgress(resolve));
