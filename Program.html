@@ -57,6 +57,20 @@
             }
             
             
+            class Task {
+                constructor(textAbove, textBelow, possibilities, solution) {
+                    this.textAbove = textAbove;
+                    this.textBelow = textBelow;
+                    this.possibilities = possibilities;
+                    this.solution = solution;
+                    this.completed = false;
+                    tasks.push(this);
+                }
+                repeat() {
+                    tasks.push(new Task(this.textAbove, this.textBelow, this.possibilities, this.solution));
+                }
+            }
+            
             function randNumber() {
                 let n = numbers;
                 let k = Object.keys(n);
@@ -91,7 +105,7 @@
                 return {shownDigits: shownDigits, solution: digits[digit]};
             }
             function newTasks() {
-                tasks = new Array(taskNumber);
+                tasks = [];
                 for (let i = 0; i < taskNumber; i++) {
                     let number = randNumber();
                     let digit = randNumberDigit(number)
@@ -109,8 +123,7 @@
                     let hint = "";
                     if (digit >= number.digits.indexOf(".")) hint = ordinalNumbers(digit-number.digits.indexOf(".")+1)+" decimal place";
                     let task = number.name+": "+shownDigits;
-                    tasks[i] = {task: task, hint: hint, possibilities: possibilities, solution: solution};
-                    continue;
+                    new Task(task, hint, possibilities, solution);
                 }
             }
             

@@ -181,7 +181,7 @@ function checkIfTaskCompleted(z) {
                 `Your answer ${tasks[z-1].possibilities[i]} is wrong. ${tasks[z-1].solution} would have been the correct solution.`
             ];
             console.log(answers.random());
-            tasks.push(task);
+            task.repeat();
         }
     }
 }
@@ -204,8 +204,8 @@ function drawTask(z) {
         
         // write task and hint
         cb();
-        xyztext(commands(task.task, 0, -1.2, 0.2));
-        xyztext(commands(task.hint, 0, 1.2, 0.2));
+        xyztext(commands(task.textAbove, 0, -1.2, 0.2));
+        xyztext(commands(task.textBelow, 0, 1.2, 0.2));
         cstrk(0.20/viewDist, crgba(0, 0, 0, alpha));
         cstrk(0.10/viewDist, crgba(0.5, 0.5, 0.5, alpha));
         cfill(crgba(1, 1, 1, alpha));
