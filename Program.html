@@ -164,18 +164,40 @@
             }
             
             async function startEverything() {
-                // load the scripts (even if the browser has them in cache)
-                await loadScript(`https://kf256.github.io/various/differentFunctions.js?${Math.random().toString(36)}`); // some helpful functions (e.g. getting a random element of an array)
-                await loadScript(`./files/opentype.js?${Math.random().toString(36)}`); // opentype.js library
-                await loadScript(`./files/commands.js?${Math.random().toString(36)}`); // function using opentype.js library
-                await loadScript(`./files/storage.js?${Math.random().toString(36)}`); // functions that save data, e.g. the score, in the localStorage
-                await loadScript(`./files/touchfunctions.js?${Math.random().toString(36)}`); // functions for both devives using a mouse and touch devices
-                await loadScript(`./files/import.js?${Math.random().toString(36)}`); // functions to import other files
-                await loadScript(`./files/canvas.js?${Math.random().toString(36)}`); // functions that help drawing on the canvas
-                await loadScript(`./files/xyz.js?${Math.random().toString(36)}`); // functions that help drawing 3D
-                await loadScript(`./files/draw/draw.js?${Math.random().toString(36)}`); // draw() function and functions drawing parts of the user interface
-                await loadScript(`./files/draw/drawCursors.js?${Math.random().toString(36)}`); // functions drawing the cursors
-                await loadScript(`./files/numbers.js?${Math.random().toString(36)}`); // JavaScript file containing numbers that can be learned
+                let scriptSources = [
+                    'https://kf256.github.io/various/differentFunctions.js', // some helpful functions (e.g. getting a random element of an array)
+                    './files/opentype.js', // opentype.js library
+                    './files/commands.js', // function using opentype.js library
+                    './files/storage.js', // functions that save data, e.g. the score, in the localStorage
+                    './files/touchfunctions.js', // functions for both devives using a mouse and touch devices
+                    './files/import.js', // functions to import other files
+                    './files/canvas.js', // functions that help drawing on the canvas
+                    './files/xyz.js', // functions that help drawing 3D
+                    './files/draw/draw.js', // draw() function and functions drawing parts of the user interface
+                    './files/draw/drawCursors.js', // functions drawing the cursors
+                    './files/numbers.js' // JavaScript file containing numbers that can be learned
+                ];
+                
+                // load the scripts
+                for (let i = 0; i < scriptSources.length; i++) {
+                    // draw loading progress
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    let w = 200;
+                    let h = 10;
+                    let x = canvas.width/2-w/2;
+                    let y = canvas.height/2-h/2;
+                    ctx.strokeStyle = ctx.fillStyle = "white";
+                    ctx.strokeRect(x, y, w, h);
+                    ctx.fillRect(x, y, w*i/scriptSources.length, h);
+                    
+                    let src = scriptSources[i];
+                    // if the branch is devel, the scripts are reloaded, even if the browser has them in the cache
+                    if (location.href.indexOf("devel") != -1) src += "?"+Math.random().toString(36);
+                    
+                    // load the script
+                    await loadScript(scriptSources[i]);
+                }
                 
                 // integrate earth.png image
                 let earthImage = await loadImageURL("./files/Earth.png");
