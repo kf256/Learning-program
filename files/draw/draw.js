@@ -50,7 +50,7 @@ function draw() {
         for (let z = tasks.length; z > 0; z--) {
             xyzloc.z = z*taskDist;
             checkIfTaskCompleted(z);
-            let viewDist = xyzrtt({x:0,y:0,z:0}).z;
+            let viewDist = xyztransform({x:0,y:0,z:0}).z;
             if (z == tasks.length && viewDist < -taskDist) {
                 state = "start";
                 pos = {x: 0, y: 0, z: 0};
@@ -187,7 +187,7 @@ function checkIfTaskCompleted(z) {
 }
 function drawTask(z) {
     let task = tasks[z-1];
-    let viewDist = xyzrtt({x:0,y:0,z:0}).z;
+    let viewDist = xyztransform({x:0,y:0,z:0}).z;
     
     // calculate alpha
     let alpha = viewDist/3-0.2;
@@ -297,7 +297,7 @@ function drawControl() {
 }
 function drawPercent() {
     xyzloc.z = (tasks.length+1)*taskDist;
-    let viewDist = xyzrtt({x:0,y:0,z:0}).z;
+    let viewDist = xyztransform({x:0,y:0,z:0}).z;
     let alpha = viewDist/3-0.2;
     let accuracy = taskNumber/tasks.length;
     cb();
