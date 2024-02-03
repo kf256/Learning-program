@@ -164,6 +164,29 @@
             }
             
             async function startEverything() {
+                let loadingProgress = 0;
+                let loadingProgressShown = 0;
+                let loadingFinished = false;
+                function drawLoadingProgress(resolve, time = Date.now()) {
+                    let delay = Date.now()-time;
+                    time += delay;
+                    delay /= 1000;
+                    if (!loadingFinished) loadingProgressShown += (loadingProgress-loadingProgressShown)*delay;
+                    else loadingProgressShown += delay;
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    let w = 200;
+                    let h = 10;
+                    let x = canvas.width/2-w/2;
+                    let y = canvas.height/2-h/2;
+                    ctx.strokeStyle = ctx.fillStyle = "white";
+                    ctx.strokeRect(x, y, w, h);
+                    ctx.fillRect(x, y, w*i/scriptSources.length, h);
+                    if (loadingProgressShown < 1) window.requestAnimationFrame(() => drawLoadingProgress(resolve, time));
+                    else resolve();
+                }
+                let drawLoadingProgressPromise = new Promise(resolve => drawLoadingProgress(resolve));
+                
                 let scriptSources = [
                     'https://kf256.github.io/various/differentFunctions.js', // some helpful functions (e.g. getting a random element of an array)
                     'https://opentype.js.org/dist/opentype.js', // opentype.js library
@@ -180,16 +203,8 @@
                 
                 // load the scripts
                 for (let i = 0; i < scriptSources.length; i++) {
-                    // draw loading progress
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    let w = 200;
-                    let h = 10;
-                    let x = canvas.width/2-w/2;
-                    let y = canvas.height/2-h/2;
-                    ctx.strokeStyle = ctx.fillStyle = "white";
-                    ctx.strokeRect(x, y, w, h);
-                    ctx.fillRect(x, y, w*i/scriptSources.length, h);
+                    // update loading progress
+                    progress = i/scriptSources.length;
                     
                     let src = scriptSources[i];
                     // if the branch is devel, the scripts are reloaded, even if the browser has them in the cache
@@ -205,6 +220,10 @@
                 images.earth = earthImage;
                 
                 await loadFont(); // load chilanka
+                
+                progress = 1;
+                finished = true;
+                await drawLoadingProgressPromise();
                 
                 draw(); // draw start screen
             }
