@@ -349,11 +349,11 @@ function drawPaperPlane() {
         f12();
     }
     if (xyzrot.y < 0) {
-        f4();
         f3();
+        f4();
     } else {
-        f3();
         f4();
+        f3();
     }
     if (xyzrot.x >= 0) {
         f12();
