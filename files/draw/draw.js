@@ -311,7 +311,7 @@ function drawPaperPlane() {
     xyzloc.x = pos.x;
     xyzloc.y = pos.y;
     xyzloc.z = pos.z+1;
-    xyzrot.x = -direction.y/10;
+    xyzrot.x = direction.y/10;
     xyzrot.y = -direction.x/10;
     
     // triangle faces
