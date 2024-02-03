@@ -217,7 +217,7 @@ function drawTask(z) {
                 // draw area with option
                 cb();
                 xyzpolygon(xyzsquare(1, x, y));
-                if (xyzloc.z-4 < pos.z) {
+                if (task.completed) {
                     let i = Math.round(x+0.5)+2*Math.round(y+0.5);
                     if (task.possibilities[i] == task.solution) cfill(crgba(0, 1, 0, alpha));
                     else cfill(crgba(1, 0, 0, alpha));
