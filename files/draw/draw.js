@@ -143,7 +143,8 @@ function drawUpdatePosition() {
 }
 function checkIfTaskCompleted(z) {
     let task = tasks[z-1];
-    if (xyzloc.z-4 > poslast.z && xyzloc.z-4 < pos.z) {
+    if (xyzloc.z-4 < pos.z && !task.completed) {
+        task.completed = true;
         let x = Math.round(pos.x+0.5);
         let y = Math.round(pos.y+0.5);
         let i = x+2*y;
