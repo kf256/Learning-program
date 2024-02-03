@@ -13,6 +13,12 @@ function xyzpolygon(points) {
     cline(points[0].x, points[0].y);
 }
 function xyzperspective(point) {
+    point.x -= pos.x;
+    point.y -= pos.y;
+    point.z -= pos.z;
+    xyzrotatex(point, rot.x);
+    xyzrotatey(point, rot.y);
+    xyzrotatez(point, rot.z);
     point.x = Math.atan2(point.x, point.z/perspectiveFactor)*perspectiveFactor;
     point.y = Math.atan2(point.y, point.z/perspectiveFactor)*perspectiveFactor;
 }
