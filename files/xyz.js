@@ -6,7 +6,7 @@ function xyzreset() {
 }
 function xyzpolygon(points) {
     for (let i = 0; i < points.length; i++) {
-        xyzrtt(points[i]);
+        xyztransform(points[i]);
         if (i == 0) cmove(points[i].x, points[i].y);
         else cline(points[i].x, points[i].y);
     }
@@ -66,22 +66,22 @@ function xyzsquare(size, x, y) {
     return data;
 }
 function xyzmove(point) {
-    xyzrtt(point);
+    xyztransform(point);
     cmove(point.x, point.y);
 }
 function xyzline(point) {
-    xyzrtt(point);
+    xyztransform(point);
     cline(point.x, point.y);
 }
 function xyzbezir(point1, point2, point) {
-    xyzrtt(point1);
-    xyzrtt(point2);
-    xyzrtt(point);
+    xyztransform(point1);
+    xyztransform(point2);
+    xyztransform(point);
     cbezir(point1.x, point1.y, point2.x, point2.y, point.x, point.y);
 }
 function xyzquadr(point1, point) {
-    xyzrtt(point1);
-    xyzrtt(point);
+    xyztransform(point1);
+    xyztransform(point);
     cbezir(point1.x, point1.y, point.x, point.y);
 }
 function xyztext(cmd, z = 0) {
