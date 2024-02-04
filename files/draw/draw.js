@@ -214,11 +214,13 @@ function drawTask(z) {
         
         for (let x = -0.5; x < 1.5; x++) {
             for (let y = -0.5; y < 1.5; y++) {
+                // calculate index
+                let i = Math.round(x+0.5)+2*Math.round(y+0.5);
+                
                 // draw area with option
                 cb();
                 xyzpolygon(xyzsquare(1, x, y));
                 if (task.completed) {
-                    let i = Math.round(x+0.5)+2*Math.round(y+0.5);
                     if (task.possibilities[i] == task.solution) cfill(crgba(0, 1, 0, alpha));
                     else cfill(crgba(1, 0, 0, alpha));
                 } else cfill(crgba(0, 0, 1, alpha));
@@ -227,7 +229,7 @@ function drawTask(z) {
                 
                 // write possibility
                 cb();
-                xyztext(commands(task.possibilities[2*y+x+1.5], x, y, 1));
+                xyztext(commands(task.possibilities[i], x, y, 1));
                 cstrk(0.25/viewDist, crgba(0, 0, 0, alpha));
                 cstrk(0.15/viewDist, crgba(0.5, 0.5, 0.5, alpha));
                 cstrk(0.05/viewDist, crgba(1, 1, 1, alpha));
