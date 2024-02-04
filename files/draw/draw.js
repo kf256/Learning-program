@@ -45,7 +45,7 @@ function draw() {
         cstrk(0.005);
         cc();
     } else if (state == "learning") {
-        drawUpdatePosition();
+        updatePosition();
         drawPercent();
         for (let z = tasks.length; z > 0; z--) {
             xyzloc.z = z*taskDist;
@@ -111,7 +111,7 @@ function drawStartSquare() {
     cstrk(0.005);
     cc();
 }
-function drawUpdatePosition() {
+function updatePosition() {
     // move forward
     speed.z = 2;
     
