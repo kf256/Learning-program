@@ -12,6 +12,7 @@ if (!isTouchDevice) {
     canvas.addEventListener("touchcancel", (evt) => {touchupdate(evt,2);});
 }
 function touchstart(index) {
+    if (state == "loading") return;
     new PaintedCursor(index);
     if (state == "not started") {
         enterFullscreen();

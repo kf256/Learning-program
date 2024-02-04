@@ -30,7 +30,7 @@
             // most important variables
             let canvas = document.getElementById("canvas");
             let ctx = canvas.getContext("2d");
-            let state = "not started";
+            let state = "loading";
             let tasks = [];
             
             // settings
@@ -224,6 +224,8 @@
                 loadingProgress = 1;
                 loadingFinished = true;
                 await drawLoadingProgressPromise;
+                
+                state = "not started";
                 
                 draw(); // draw start screen
             }
