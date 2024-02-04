@@ -13,6 +13,10 @@ if (!isTouchDevice) {
 }
 function touchstart(index) {
     if (state == "loading") return;
+    let posX = touches[index].x;
+    let posY = touches[index].y;
+    let canvasX = (posX-cw2)/cm2;
+    let canvasY = (posY-ch2)/cm2;
     new PaintedCursor(index);
     if (state == "not started") {
         enterFullscreen();
@@ -25,8 +29,8 @@ function touchstart(index) {
         let x = 0.3-cw/cm;
         let y = ch/cm-0.3;
         let r = 0.2;
-        let dx = (touches[index].x-cw2-cm2*x)/cm2;
-        let dy = (touches[index].y-ch2-cm2*y)/cm2;
+        let dx = canvasX-x;
+        let dy = canvasY-y;
         let d = Math.sqrt(dx**2+dy**2);
         if (d < r) {
             controlCursor = new Cursor(index);
