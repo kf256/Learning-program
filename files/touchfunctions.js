@@ -19,11 +19,15 @@ function touchstart(index) {
     let canvasY = (posY-ch2)/cm2;
     new PaintedCursor(index);
     if (state == "not started") {
-        enterFullscreen();
-        state = "start";
+        if (Math.abs(canvasX) < 0.9 && Math.abs(canvasY) < 0.9) {
+            enterFullscreen();
+            state = "start";
+        }
     } else if (state == "start") {
-        newTasks();
-        state = "learning";
+        if (Math.abs(canvasX) < 0.9 && Math.abs(canvasY) < 0.9) {
+            newTasks();
+            state = "learning";
+        }
     }
     if (state == "learning") {
         let x = 0.3-cw/cm;
