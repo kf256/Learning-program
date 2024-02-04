@@ -1,4 +1,4 @@
-let t = 0;
+let delay = 0;
 let drawnumber = 0;
 let framerate = null;
 let framerateint = Math.round(framerate);
@@ -74,21 +74,21 @@ function draw() {
 }
 function updateTime() {
     // calculate delay
-    t = Date.now()-time;
-    time += t;
-    t /= 1000; // convert to seconds
+    delay = Date.now()-time;
+    time += delay;
+    delay /= 1000; // convert to seconds
     
     // update framerate variables
-    if (framerate == Infinity) framerate = 1/t;
-    else if (drawnumber < 10) framerate = 1/t;
-    else framerate = framerate*0.98+1/t*0.02;
+    if (framerate == Infinity) framerate = 1/delay;
+    else if (drawnumber < 10) framerate = 1/delay;
+    else framerate = framerate*0.98+1/delay*0.02;
     if ((nextframerateintupdate <= Date.now()) && (framerateint != Math.round(framerate))) {
         framerateint = Math.round(framerate);
         nextframerateintupdate = Date.now()+500; // refresh in half a second at the earliest
     }
     
     // make everything faster or slower
-    t *= tasksSpeed;
+    delay *= tasksSpeed;
 }
 function drawFrameRate() {
     cb();
@@ -134,9 +134,9 @@ function drawUpdatePosition() {
     direction = JSON.copy(speed);
     
     // update pos
-    pos.x+= speed.x*t;
-    pos.y+= speed.y*t;
-    pos.z+= speed.z*t;
+    pos.x+= speed.x*delay;
+    pos.y+= speed.y*delay;
+    pos.z+= speed.z*delay;
     
     // reset speed
     speed = {x: 0, y: 0, z: 0};
